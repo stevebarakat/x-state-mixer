@@ -1,6 +1,6 @@
 import { MixerMachineContext } from "../App";
 
-function PlaybackMode({ trackIndex }) {
+function PlaybackMode({ trackIndex, param }) {
   const [state, send] = MixerMachineContext.useActor();
 
   const playbackMode = state.context.track.playbackModes[trackIndex];
@@ -10,8 +10,8 @@ function PlaybackMode({ trackIndex }) {
   function changePlaybackMode(e) {
     send({
       type: "CHANGE_PLAYBACK_MODE",
-      param: "volume",
       target: e.target,
+      param,
     });
   }
 
@@ -25,7 +25,7 @@ function PlaybackMode({ trackIndex }) {
         name={`playbackMode-${trackIndex}`}
         value="record"
         onChange={changePlaybackMode}
-        defaultChecked={playbackMode.volume === "record"}
+        defaultChecked={playbackMode[`${param}`] === "record"}
       />
       <label htmlFor={`record-${trackIndex}`}>R</label>
 
@@ -35,7 +35,7 @@ function PlaybackMode({ trackIndex }) {
         name={`playbackMode-${trackIndex}`}
         value="playback"
         onChange={changePlaybackMode}
-        defaultChecked={playbackMode.volume === "playback"}
+        defaultChecked={playbackMode[`${param}`] === "playback"}
       />
       <label htmlFor={`playback-${trackIndex}`}>P</label>
 
@@ -45,7 +45,7 @@ function PlaybackMode({ trackIndex }) {
         name={`playbackMode-${trackIndex}`}
         value="free"
         onChange={changePlaybackMode}
-        defaultChecked={playbackMode.volume === "free"}
+        defaultChecked={playbackMode[`${param}`] === "free"}
       />
       <label htmlFor={`free-${trackIndex}`}>F</label>
     </div>

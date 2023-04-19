@@ -13,7 +13,7 @@ function ChannelStrip({ track, trackIndex, channel }) {
       </div>
       <Pan trackIndex={trackIndex} channel={channel} />
       <TrackFader trackIndex={trackIndex} channel={channel} />
-      <PlaybackMode trackIndex={trackIndex} />
+      <PlaybackMode trackIndex={trackIndex} param="volume" />
       <span>{track.name}</span>
     </div>
   );
