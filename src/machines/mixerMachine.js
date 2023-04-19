@@ -36,12 +36,14 @@ export const mixerMachine = createMachine(
         playbackModes: savedPlaybackModes,
       },
     },
+    on: {
+      LOADED: { actions: "stop", target: "stopped" },
+    },
 
     states: {
       loading: { on: { LOADED: "stopped" } },
       playing: {
         on: {
-          PLAY: { actions: "play", target: "playing" },
           PAUSE: { actions: "pause", target: "stopped" },
           STOP: { actions: "stop", target: "stopped" },
           REWIND: { actions: "rewind" },
@@ -56,14 +58,13 @@ export const mixerMachine = createMachine(
       stopped: {
         on: {
           PLAY: { actions: "play", target: "playing" },
-          STOP: { actions: "stop", target: "stopped" },
-          LOADED: { actions: "stop", target: "stopped" },
+          REWIND: { actions: "rewind" },
+          FF: { actions: "fastForward" },
           CHANGE_VOLUME: { actions: "changeVolume" },
           CHANGE_MASTER_VOLUME: { actions: "changeMasterVolume" },
           CHANGE_PAN: { actions: "changePan" },
           TOGGLE_SOLO: { actions: "toggleSolo" },
           TOGGLE_MUTE: { actions: "toggleMute" },
-          CHANGE_PLAYBACK_MODE: { actions: "changePlaybackMode" },
         },
       },
     },
@@ -79,7 +80,7 @@ export const mixerMachine = createMachine(
         t.seconds = song.start ?? 0;
       },
       fastForward: () => (t.seconds = t.seconds + 10),
-      rewind: pure(() => (t.seconds = t.seconds > 10 ? t.seconds - 10 : 0)),
+      rewind: () => (t.seconds = t.seconds > 10 ? t.seconds - 10 : 0),
 
       changeMasterVolume: pure((_, { target }) => {
         const scaled = dBToPercent(scale(parseFloat(target.value)));
