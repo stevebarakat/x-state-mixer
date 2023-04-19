@@ -3,7 +3,7 @@ import Range from "./Range";
 
 function TrackFader({ trackIndex, channel }) {
   const [state, send] = MixerMachineContext.useActor();
-  const volume = parseFloat(state.context.track.volume[trackIndex]);
+  const volume = parseFloat(state.context.track.volumes[trackIndex]);
 
   return (
     <>

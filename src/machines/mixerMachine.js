@@ -25,11 +25,11 @@ export const mixerMachine = createMachine(
     context: {
       masterVolume: -32,
       track: {
-        volume: initialVolumes,
-        pan: initialPans,
-        solo: initialSolos,
-        mute: initialMutes,
-        playbackMode: {
+        volumes: initialVolumes,
+        pans: initialPans,
+        solos: initialSolos,
+        mutes: initialMutes,
+        playbackModes: {
           volumePbm: "free",
           panPbm: "free",
         },
@@ -95,7 +95,7 @@ export const mixerMachine = createMachine(
         const channelVolume = () => {
           channel.volume.value = scaled;
         };
-        const tempVols = context.track.volume;
+        const tempVols = context.track.volumes;
         tempVols[trackIndex] = parseFloat(value);
         currentTracks[trackIndex].volume = parseFloat(value);
         localStorage.setItem(
@@ -111,7 +111,7 @@ export const mixerMachine = createMachine(
         const channelPan = () => {
           channel.pan.value = value;
         };
-        const tempPans = context.track.pan;
+        const tempPans = context.track.pans;
         tempPans[trackIndex] = parseFloat(value);
         currentTracks[trackIndex].pan = parseFloat(value);
         localStorage.setItem(
@@ -127,7 +127,7 @@ export const mixerMachine = createMachine(
         const muteChannel = () => {
           channel.mute = checked;
         };
-        const tempMutes = context.track.mute;
+        const tempMutes = context.track.mutes;
         tempMutes[trackIndex] = checked;
         currentTracks[trackIndex].mute = target.checked;
         localStorage.setItem(
@@ -143,7 +143,7 @@ export const mixerMachine = createMachine(
         const soloChannel = () => {
           channel.solo = checked;
         };
-        const tempSolos = context.track.solo;
+        const tempSolos = context.track.solos;
         tempSolos[trackIndex] = checked;
         currentTracks[trackIndex].solo = target.checked;
         localStorage.setItem(

@@ -3,7 +3,7 @@ import { MixerMachineContext } from "../App";
 function PlaybackMode({ trackIndex }) {
   const [state, send] = MixerMachineContext.useActor();
 
-  const playbackMode = state.context.track.playbackMode.volumePbm;
+  const playbackMode = state.context.track.playbackModes.volumePbm;
 
   console.log("playbackMode", playbackMode);
 

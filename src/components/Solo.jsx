@@ -2,7 +2,7 @@ import { MixerMachineContext } from "../App";
 
 function Solo({ trackIndex, channel }) {
   const [state, send] = MixerMachineContext.useActor();
-  const solo = state.context.track.solo[trackIndex];
+  const solo = state.context.track.solos[trackIndex];
 
   return (
     <div className="chan-strip-btn">
