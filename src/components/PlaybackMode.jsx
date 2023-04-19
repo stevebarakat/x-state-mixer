@@ -10,6 +10,7 @@ function PlaybackMode({ trackIndex }) {
   function changePlaybackMode(e) {
     send({
       type: "CHANGE_PLAYBACK_MODE",
+      param: "volume",
       target: e.target,
     });
   }

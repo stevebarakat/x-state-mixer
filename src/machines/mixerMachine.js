@@ -153,6 +153,19 @@ export const mixerMachine = createMachine(
         );
         return [assign({ solo: tempSolos }), soloChannel];
       }),
+
+      changePlaybackMode: pure((context, { param, target }) => {
+        const trackIndex = target.id.at(-1);
+        const value = target.value;
+        const tempPlaybackModes = context.track.playbackModes;
+        tempPlaybackModes[trackIndex] = value;
+        currentTracks[trackIndex].playbackMode[`${param}`] = target.value;
+        localStorage.setItem(
+          "currentTracks",
+          JSON.stringify([...currentTracks])
+        );
+        return [assign({ playbackMode: tempPlaybackModes })];
+      }),
     },
   }
 );
