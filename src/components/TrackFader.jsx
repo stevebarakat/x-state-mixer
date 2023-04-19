@@ -26,8 +26,7 @@ function TrackFader({ channel, trackIndex }) {
     let track8volume = [];
 
     loop.current = new Loop(() => {
-      // if (state.context.track.playbackMode[trackIndex].volume !== "record")
-      //   return;
+      if (currentTracks[trackIndex].playbackMode.volume !== "record") return;
 
       async function record() {
         const time = t.seconds.toFixed(1);
@@ -115,7 +114,7 @@ function TrackFader({ channel, trackIndex }) {
 
     function assignVolume(trackIndex, mix) {
       t.schedule((time) => {
-        if (state.context.track.playbackMode[trackIndex].volume !== "playback")
+        if (currentTracks[trackIndex].playbackMode.volume !== "playback")
           return;
         Draw.schedule(() => {
           const scaled = dBToPercent(transpose(mix.volume));
