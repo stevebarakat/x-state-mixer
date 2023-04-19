@@ -26,8 +26,8 @@ function TrackFader({ channel, trackIndex }) {
     let track8volume = [];
 
     loop.current = new Loop(() => {
-      if (state.context.track.playbackMode[trackIndex].volume !== "record")
-        return;
+      // if (state.context.track.playbackMode[trackIndex].volume !== "record")
+      //   return;
 
       async function record() {
         const time = t.seconds.toFixed(1);
