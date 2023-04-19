@@ -3,7 +3,7 @@ import { MixerMachineContext } from "../App";
 function PlaybackMode({ trackIndex }) {
   const [state, send] = MixerMachineContext.useActor();
 
-  const playbackMode = state.context.track.playbackModes.volumePbm;
+  const playbackMode = state.context.track.playbackModes[trackIndex];
 
   console.log("playbackMode", playbackMode);
 
@@ -14,35 +14,37 @@ function PlaybackMode({ trackIndex }) {
     });
   }
 
+  console.log("trackIndex", trackIndex);
+
   return (
     <div>
       <input
         type="radio"
         id={`record-${trackIndex}`}
-        name="playbackMode"
+        name={`playbackMode-${trackIndex}`}
         value="record"
         onChange={changePlaybackMode}
-        checked={playbackMode === "record"}
+        defaultChecked={playbackMode.volume === "record"}
       />
       <label htmlFor={`record-${trackIndex}`}>R</label>
 
       <input
         type="radio"
         id={`playback-${trackIndex}`}
-        name="playbackMode"
+        name={`playbackMode-${trackIndex}`}
         value="playback"
         onChange={changePlaybackMode}
-        checked={playbackMode === "playback"}
+        defaultChecked={playbackMode.volume === "playback"}
       />
       <label htmlFor={`playback-${trackIndex}`}>P</label>
 
       <input
         type="radio"
         id={`free-${trackIndex}`}
-        name="playbackMode"
+        name={`playbackMode-${trackIndex}`}
         value="free"
         onChange={changePlaybackMode}
-        checked={playbackMode === "free"}
+        defaultChecked={playbackMode.volume === "free"}
       />
       <label htmlFor={`free-${trackIndex}`}>F</label>
     </div>

@@ -9,13 +9,17 @@ const song = JSON.parse(localStorage.getItem("song")) ?? roxanne;
 const currentTracks =
   JSON.parse(localStorage.getItem("currentTracks")) || roxanne.tracks;
 
-const initialVolumes = currentTracks.map((currentTrack) => currentTrack.volume);
+const savedVolumes = currentTracks.map((currentTrack) => currentTrack.volume);
 
-const initialPans = currentTracks.map((currentTrack) => currentTrack.pan);
+const savedPans = currentTracks.map((currentTrack) => currentTrack.pan);
 
-const initialMutes = currentTracks.map((currentTrack) => currentTrack.mute);
+const savedMutes = currentTracks.map((currentTrack) => currentTrack.mute);
 
-const initialSolos = currentTracks.map((currentTrack) => currentTrack.solo);
+const savedSolos = currentTracks.map((currentTrack) => currentTrack.solo);
+
+const savedPlaybackModes = currentTracks.map(
+  (currentTrack) => currentTrack.playbackMode
+);
 
 export const mixerMachine = createMachine(
   {
@@ -25,14 +29,11 @@ export const mixerMachine = createMachine(
     context: {
       masterVolume: -32,
       track: {
-        volumes: initialVolumes,
-        pans: initialPans,
-        solos: initialSolos,
-        mutes: initialMutes,
-        playbackModes: {
-          volumePbm: "free",
-          panPbm: "free",
-        },
+        volumes: savedVolumes,
+        pans: savedPans,
+        solos: savedSolos,
+        mutes: savedMutes,
+        playbackModes: savedPlaybackModes,
       },
     },
 
