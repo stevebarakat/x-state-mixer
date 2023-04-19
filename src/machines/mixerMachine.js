@@ -89,13 +89,11 @@ export const mixerMachine = createMachine(
         return [assign({ masterVolume: parseFloat(target.value) }), volume];
       }),
 
-      changeVolume: pure((context, { target, channel }) => {
+      changeVolume: assign((context, { target, channel }) => {
         const trackIndex = target.id.at(-1);
         const value = target.value;
         const scaled = dBToPercent(scale(parseFloat(value)));
-        const channelVolume = () => {
-          channel.volume.value = scaled;
-        };
+        channel.volume.value = scaled;
         const tempVols = context.track.volumes;
         tempVols[trackIndex] = parseFloat(value);
         currentTracks[trackIndex].volume = parseFloat(value);
@@ -103,7 +101,6 @@ export const mixerMachine = createMachine(
           "currentTracks",
           JSON.stringify([...currentTracks])
         );
-        return [assign({ volume: tempVols }), channelVolume];
       }),
 
       changePan: pure((context, { target, channel }) => {
