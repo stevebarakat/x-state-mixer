@@ -246,74 +246,85 @@ export const mixerMachine = createMachine(
       }),
 
       playback: assign((context, { trackIndex, channel, mixData }) => {
-        console.log("mixData2", mixData);
-
         function assignVolume(trackIndex, mix) {
           t.schedule((time) => {
             if (currentTracks[trackIndex].playbackMode.volume !== "playback")
               return;
+
+            console.log(
+              "currentTracks[trackIndex].playbackMode.volume",
+              currentTracks[trackIndex].playbackMode.volume,
+              "trackIndex",
+              trackIndex
+            );
+
             Draw.schedule(() => {
-              console.log("mix.volume", mix.volume);
-              console.log("context", context.track.volumes[trackIndex]);
               channel.volume.value = mix.volume;
               context.track.volumes[trackIndex] = mix.volume;
             }, time);
           }, mix.time);
         }
 
-        const switcher = {
-          1: () => {
+        switch ((trackIndex + 1).toString()) {
+          case "1":
+            if (currentTracks[0].playbackMode.volume !== "playback") return;
             mixData[trackIndex] &&
               mixData[trackIndex][`track1volume`]?.forEach((mix) => {
                 assignVolume(trackIndex, mix);
               });
-          },
-          2: () => {
+            break;
+          case "2":
+            if (currentTracks[1].playbackMode.volume !== "playback") return;
             mixData[trackIndex] &&
               mixData[trackIndex][`track2volume`]?.forEach((mix) => {
                 assignVolume(trackIndex, mix);
               });
-          },
-          3: () => {
+            break;
+          case "3":
+            if (currentTracks[2].playbackMode.volume !== "playback") return;
             mixData[trackIndex] &&
               mixData[trackIndex][`track3volume`]?.forEach((mix) => {
                 assignVolume(trackIndex, mix);
               });
-          },
-          4: () => {
+            break;
+          case "4":
+            if (currentTracks[3].playbackMode.volume !== "playback") return;
             mixData[trackIndex] &&
               mixData[trackIndex][`track4volume`]?.forEach((mix) => {
                 assignVolume(trackIndex, mix);
               });
-          },
-          5: () => {
+            break;
+          case "5":
+            if (currentTracks[4].playbackMode.volume !== "playback") return;
             mixData[trackIndex] &&
               mixData[trackIndex][`track5volume`]?.forEach((mix) => {
                 assignVolume(trackIndex, mix);
               });
-          },
-          6: () => {
+            break;
+          case "6":
+            if (currentTracks[5].playbackMode.volume !== "playback") return;
             mixData[trackIndex] &&
               mixData[trackIndex][`track6volume`]?.forEach((mix) => {
                 assignVolume(trackIndex, mix);
               });
-          },
-          7: () => {
+            break;
+          case "7":
+            if (currentTracks[6].playbackMode.volume !== "playback") return;
             mixData[trackIndex] &&
               mixData[trackIndex][`track7volume`]?.forEach((mix) => {
                 assignVolume(trackIndex, mix);
               });
-          },
-          8: () => {
+            break;
+          case "8":
+            if (currentTracks[7].playbackMode.volume !== "playback") return;
             mixData[trackIndex] &&
               mixData[trackIndex][`track8volume`]?.forEach((mix) => {
                 assignVolume(trackIndex, mix);
               });
-          },
-          default: () => console.log("Unknown"),
-        };
-
-        (switcher[(trackIndex + 1).toString()] || switcher.default)();
+            break;
+          default:
+            break;
+        }
       }),
     },
   }
