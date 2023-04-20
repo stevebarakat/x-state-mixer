@@ -5,14 +5,14 @@ import { dBToPercent, scale } from "../utils/scale";
 import { db } from "../../db";
 import { roxanne } from "../songs";
 
-let track1volume = [];
-let track2volume = [];
-let track3volume = [];
-let track4volume = [];
-let track5volume = [];
-let track6volume = [];
-let track7volume = [];
-let track8volume = [];
+let param1 = [];
+let param2 = [];
+let param3 = [];
+let param4 = [];
+let param5 = [];
+let param6 = [];
+let param7 = [];
+let param8 = [];
 
 const getSong = () => {
   let song = JSON.parse(localStorage.getItem("song"));
@@ -180,139 +180,132 @@ export const mixerMachine = createMachine(
         return [assign({ playbackMode: tempPlaybackModes })];
       }),
 
-      record: assign(async (context, { trackIndex, volume }) => {
+      record: assign(async (context, { trackIndex, volume, param }) => {
         const time = t.seconds.toFixed(1);
         const switcher = {
           1: async () => {
-            track1volume = [{ time, volume }, ...track1volume];
+            param1 = [{ time, volume }, ...param1];
             await db.mixData.put({
               id: "track1",
-              track1volume,
+              [`track1${param}`]: param1,
             });
           },
           2: async () => {
-            track2volume = [{ time, volume }, ...track2volume];
+            param2 = [{ time, volume }, ...param2];
             await db.mixData.put({
               id: "track2",
-              track2volume,
+              [`track2${param}`]: param2,
             });
           },
           3: async () => {
-            track3volume = [{ time, volume }, ...track3volume];
+            param3 = [{ time, volume }, ...param3];
             await db.mixData.put({
               id: "track3",
-              track3volume,
+              [`track3${param}`]: param3,
             });
           },
           4: async () => {
-            track4volume = [{ time, volume }, ...track4volume];
+            param4 = [{ time, volume }, ...param4];
             await db.mixData.put({
               id: "track4",
-              track4volume,
+              [`track4${param}`]: param4,
             });
           },
-          5: async () => {
-            track5volume = [{ time, volume }, ...track5volume];
-            await db.mixData.put({
-              id: "track5",
-              track5volume,
-            });
-          },
-          6: async () => {
-            track6volume = [{ time, volume }, ...track6volume];
-            await db.mixData.put({
-              id: "track6",
-              track6volume,
-            });
-          },
-          7: async () => {
-            track7volume = [{ time, volume }, ...track7volume];
-            await db.mixData.put({
-              id: "track7",
-              track7volume,
-            });
-          },
-          8: async () => {
-            track8volume = [{ time, volume }, ...track8volume];
-            await db.mixData.put({
-              id: "track8",
-              track8volume,
-            });
-          },
+          // 5: async () => {
+          //   track5volume = [{ time, volume }, ...track5volume];
+          //   await db.mixData.put({
+          //     id: "track5",
+          //     track5volume,
+          //   });
+          // },
+          // 6: async () => {
+          //   track6volume = [{ time, volume }, ...track6volume];
+          //   await db.mixData.put({
+          //     id: "track6",
+          //     track6volume,
+          //   });
+          // },
+          // 7: async () => {
+          //   track7volume = [{ time, volume }, ...track7volume];
+          //   await db.mixData.put({
+          //     id: "track7",
+          //     track7volume,
+          //   });
+          // },
+          // 8: async () => {
+          //   track8volume = [{ time, volume }, ...track8volume];
+          //   await db.mixData.put({
+          //     id: "track8",
+          //     track8volume,
+          //   });
+          // },
           default: () => null,
         };
         (switcher[trackIndex + 1] || switcher.default)();
       }),
 
-      playback: assign((context, { trackIndex, channel, mixData }) => {
-        function assignVolume(trackIndex, mix) {
+      playback: assign((context, { trackIndex, channel, mixData, param }) => {
+        function assignParam(trackIndex, mix) {
           t.schedule((time) => {
-            if (currentTracks[trackIndex].playbackMode.volume !== "playback")
+            if (
+              currentTracks[trackIndex].playbackMode[`${param}`] !== "playback"
+            )
               return;
-
             Draw.schedule(() => {
-              channel.volume.value = mix.volume;
-              context.track.volumes[trackIndex] = mix.volume;
+              channel[`${param}`].value = mix[`${param}`];
+              context.track[`${param}s`][trackIndex] = mix[`${param}`];
             }, time);
           }, mix.time);
         }
 
         switch ((trackIndex + 1).toString()) {
           case "1":
-            if (currentTracks[0].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track1volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            currentTracks[trackIndex].playbackMode[`${param}`] === "playback" &&
+              mixData[trackIndex][`track1${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
+              });
             break;
           case "2":
-            if (currentTracks[1].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track2volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            currentTracks[trackIndex].playbackMode[`${param}`] === "playback" &&
+              mixData[trackIndex][`track2${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
+              });
             break;
           case "3":
-            if (currentTracks[2].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track3volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            currentTracks[trackIndex].playbackMode[`${param}`] === "playback" &&
+              mixData[trackIndex][`track3${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
+              });
             break;
           case "4":
-            if (currentTracks[3].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track4volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            currentTracks[trackIndex].playbackMode[`${param}`] === "playback" &&
+              mixData[trackIndex][`track4${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
+              });
             break;
           case "5":
-            if (currentTracks[4].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track5volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            currentTracks[trackIndex].playbackMode[`${param}`] === "playback" &&
+              mixData[trackIndex][`track5${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
+              });
             break;
           case "6":
-            if (currentTracks[5].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track6volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            currentTracks[trackIndex].playbackMode[`${param}`] === "playback" &&
+              mixData[trackIndex][`track6${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
+              });
             break;
           case "7":
-            if (currentTracks[6].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track7volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            currentTracks[trackIndex].playbackMode[`${param}`] === "playback" &&
+              mixData[trackIndex][`track7${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
+              });
             break;
           case "8":
-            if (currentTracks[7].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track8volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            currentTracks[trackIndex].playbackMode[`${param}`] === "playback" &&
+              mixData[trackIndex][`track8${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
+              });
             break;
           default:
             break;

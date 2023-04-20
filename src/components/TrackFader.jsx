@@ -14,12 +14,13 @@ function TrackFader({ channel, trackIndex }) {
 
   const mixData = useLiveQuery(() => db.mixData.toArray());
 
-  // !!! --- START RECORDING --- !!! //
+  // !!! --- RECORD --- !!! //
   useEffect(() => {
     recordLoop.current = new Loop(() => {
       if (currentTracks[trackIndex].playbackMode.volume !== "record") return;
       send({
         type: "RECORD",
+        param: "volume",
         trackIndex,
         volume,
       });
@@ -30,13 +31,12 @@ function TrackFader({ channel, trackIndex }) {
     };
   }, [send, trackIndex, currentTracks, volume]);
 
-  // !!! --- START PLAYBACK --- !!! //
+  // !!! --- PLAYBACK --- !!! //
   useEffect(() => {
-    if (!mixData) return;
-
     playbackLoop.current = new Loop(() => {
       send({
         type: "PLAYBACK",
+        param: "volume",
         trackIndex,
         channel,
         mixData,
@@ -46,7 +46,7 @@ function TrackFader({ channel, trackIndex }) {
     return () => {
       playbackLoop.current.dispose();
     };
-  }, [trackIndex, mixData, channel, send]);
+  }, [send, trackIndex, mixData, channel]);
 
   return (
     <>
