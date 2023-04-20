@@ -1,11 +1,9 @@
-import { useState, useRef, useEffect } from "react";
-import { dBToPercent, transpose } from "../utils/scale";
-import { Draw, Loop, Transport as t } from "tone";
+import { useRef, useEffect } from "react";
+import { Loop, Transport as t } from "tone";
 import { MixerMachineContext } from "../App";
 import Range from "./Range";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../../db";
-import { play } from "../assets/icons";
 
 function TrackFader({ channel, trackIndex }) {
   const [state, send] = MixerMachineContext.useActor();

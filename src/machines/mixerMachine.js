@@ -250,13 +250,6 @@ export const mixerMachine = createMachine(
             if (currentTracks[trackIndex].playbackMode.volume !== "playback")
               return;
 
-            console.log(
-              "currentTracks[trackIndex].playbackMode.volume",
-              currentTracks[trackIndex].playbackMode.volume,
-              "trackIndex",
-              trackIndex
-            );
-
             Draw.schedule(() => {
               channel.volume.value = mix.volume;
               context.track.volumes[trackIndex] = mix.volume;
