@@ -16,8 +16,10 @@ function TrackFader({ channel, trackIndex }) {
 
   // !!! --- START RECORDING --- !!! //
   useEffect(() => {
+    console.log("outside record loop");
     loop.current = new Loop(() => {
       if (currentTracks[trackIndex].playbackMode.volume !== "record") return;
+      console.log("inside record loop");
       send({
         type: "RECORD",
         trackIndex,

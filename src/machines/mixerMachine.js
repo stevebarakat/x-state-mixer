@@ -5,6 +5,15 @@ import { dBToPercent, scale } from "../utils/scale";
 import { db } from "../../db";
 import { roxanne } from "../songs";
 
+let track1volume = [];
+let track2volume = [];
+let track3volume = [];
+let track4volume = [];
+let track5volume = [];
+let track6volume = [];
+let track7volume = [];
+let track8volume = [];
+
 const getSong = () => {
   let song = JSON.parse(localStorage.getItem("song"));
   let currentTracks = JSON.parse(localStorage.getItem("currentTracks"));
@@ -57,7 +66,7 @@ export const mixerMachine = createMachine(
         on: {
           PAUSE: { actions: "pause", target: "stopped" },
           STOP: { actions: "stop", target: "stopped" },
-          RECORDING: { actions: "record" },
+          RECORD: { actions: "record" },
         },
       },
       stopped: {
@@ -171,14 +180,6 @@ export const mixerMachine = createMachine(
       }),
 
       record: assign(async (context, { trackIndex, volume }) => {
-        let track1volume = [];
-        let track2volume = [];
-        let track3volume = [];
-        let track4volume = [];
-        let track5volume = [];
-        let track6volume = [];
-        let track7volume = [];
-        let track8volume = [];
         const time = t.seconds.toFixed(1);
         const switcher = {
           1: async () => {
