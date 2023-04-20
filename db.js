@@ -3,7 +3,7 @@ import Dexie from "dexie";
 export const db = new Dexie("mixerDb");
 db.version(1).stores({
   mixData:
-    "++id, track1volume, track2volume, track3volume, track4volume, track5volume, track6volume, track7volume, track8volume",
+    "++id, track1, track2, track3, track4, track5, track6, track7, track8",
 });
 
 // Populate from AJAX:
@@ -49,14 +49,14 @@ db.on("ready", function (db) {
       //   });
 
       const data = [
-        { id: "track1" },
-        { id: "track2" },
-        { id: "track3" },
-        { id: "track4" },
-        { id: "track5" },
-        { id: "track6" },
-        { id: "track7" },
-        { id: "track8" },
+        { id: "track1", volume: -32 },
+        { id: "track2", volume: -32 },
+        { id: "track3", volume: -32 },
+        { id: "track4", volume: -32 },
+        { id: "track5", volume: -32 },
+        { id: "track6", volume: -32 },
+        { id: "track7", volume: -32 },
+        { id: "track8", volume: -32 },
       ];
 
       return db.mixData.bulkAdd(data);
