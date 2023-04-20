@@ -1,17 +1,16 @@
-import { useRef, useEffect } from "react";
-import { Loop, Transport as t } from "tone";
 import { MixerMachineContext } from "../App";
 import Range from "./Range";
+import { useRef, useEffect } from "react";
+import { Loop, Transport as t } from "tone";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../../db";
 
 function TrackFader({ channel, trackIndex }) {
   const [state, send] = MixerMachineContext.useActor();
+  const volume = parseFloat(state.context.track.volumes[trackIndex]);
   const recordLoop = useRef(null);
   const playbackLoop = useRef(null);
   const currentTracks = JSON.parse(localStorage.getItem("currentTracks"));
-  const volume = parseFloat(state.context.track.volumes[trackIndex]);
-
   const mixData = useLiveQuery(() => db.mixData.toArray());
 
   // !!! --- RECORD --- !!! //
