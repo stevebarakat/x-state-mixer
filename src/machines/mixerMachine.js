@@ -245,67 +245,63 @@ export const mixerMachine = createMachine(
       }),
 
       playback: assign((context, { trackIndex, channel, mixData, param }) => {
-        function assignVolume(trackIndex, mix) {
-          t.schedule((time) => {
-            if (
-              currentTracks[trackIndex].playbackMode[`${param}`] !== "playback"
-            )
-              return;
+        function assignParam(trackIndex, mix) {
+          if (currentTracks[trackIndex].playbackMode[`${param}`] !== "playback")
+            return;
 
-            Draw.schedule(() => {
-              channel.volume.value = mix.volume;
-              context.track.volumes[trackIndex] = mix.volume;
-            }, time);
+          Draw.schedule(() => {
+            channel[`${param}`].value = mix[`${param}`];
+            context.track[`${param}s`][trackIndex] = mix[`${param}`];
           }, mix.time);
         }
 
         switch ((trackIndex + 1).toString()) {
           case "1":
             mixData[trackIndex] &&
-              mixData[trackIndex][`track1volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
+              mixData[trackIndex][`track1${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
               });
             break;
           case "2":
             mixData[trackIndex] &&
-              mixData[trackIndex][`track2volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
+              mixData[trackIndex][`track2${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
               });
             break;
           case "3":
             mixData[trackIndex] &&
-              mixData[trackIndex][`track3volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
+              mixData[trackIndex][`track3${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
               });
             break;
           case "4":
             mixData[trackIndex] &&
-              mixData[trackIndex][`track4volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
+              mixData[trackIndex][`track4${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
               });
             break;
           case "5":
             mixData[trackIndex] &&
-              mixData[trackIndex][`track5volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
+              mixData[trackIndex][`track5${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
               });
             break;
           case "6":
             mixData[trackIndex] &&
-              mixData[trackIndex][`track6volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
+              mixData[trackIndex][`track6${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
               });
             break;
           case "7":
             mixData[trackIndex] &&
-              mixData[trackIndex][`track7volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
+              mixData[trackIndex][`track7${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
               });
             break;
           case "8":
             mixData[trackIndex] &&
-              mixData[trackIndex][`track8volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
+              mixData[trackIndex][`track8${param}`]?.forEach((mix) => {
+                assignParam(trackIndex, mix);
               });
             break;
           default:
