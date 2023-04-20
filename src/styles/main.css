@@ -1,4 +1,5 @@
 :root {
+  --white: rgba(255, 255, 255, 0.87);
   --primary-color: hsl(330 100% 70%);
   --primary-color-1: hsl(330 100% 70%/0.1);
   --primary-color-2: hsl(330 100% 70%/0.2);
@@ -33,27 +34,38 @@
 }
 .channels {
   display: flex;
-  gap: 12px;
   justify-content: center;
   align-items: flex-end;
-}
-
-.channels > div:last-of-type {
-  border: 1px solid var(--primary-color);
-  padding: 50px 0;
+  gap: 4px;
 }
 
 .channel {
   display: flex;
   flex-direction: column;
   background: #000;
-  padding: 24px 0;
-  border-radius: 12px;
+  padding: 20px;
   align-items: center;
+  max-width: 120px;
+  border-radius: 12px;
+  height: 100%;
+}
+
+.channel:last-of-type {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--primary-color);
+  border-radius: 12px;
+  margin-left: 4px;
+  padding: 0;
+  padding: 7.5% 0;
+}
+
+.channel:last-of-type input[type="range"] {
+  height: 100%;
 }
 
 .range-x {
-  width: 60%;
+  width: 100%;
   padding: 8px 0;
 }
 
@@ -64,11 +76,6 @@
   height: 150px;
 }
 
-.pan {
-  margin-bottom: 16px;
-  width: 60%;
-}
-
 .window {
   border: 1px solid hsl(120, 0%, 52%);
   padding: 8px;
@@ -76,42 +83,70 @@
   width: 8ch;
 }
 
+.pbm-btn,
 .chan-strip-btn {
-  font-weight: 900;
-  color: white;
-  width: 50px;
+  width: 100%;
+  height: fit-content;
   margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
 }
-
-input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-}
-
-.chan-strip-btn .label {
-  border: none;
+.pbm-btn label,
+.chan-strip-btn label {
+  border: 1px solid transparent;
   border-radius: 4px;
-  color: var(--primary-color);
   background: black;
-  padding: 4px 8px;
   white-space: nowrap;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   transition: all 0.2s;
   cursor: pointer;
-  width: 100%;
-  text-align: center;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-    "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
-.chan-strip-btn input[type="checkbox"]:checked + .label {
+.chan-strip-btn label {
+  color: var(--primary-color);
+  padding: 4px 8px;
+  font-weight: 900;
+}
+
+.pbm-btn label {
+  width: 22px;
+  padding: 2px 4px;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.52;
+}
+
+.pbm-btn input[type="radio"],
+.chan-strip-btn input[type="checkbox"] {
+  position: absolute;
+  appearance: none;
+}
+
+.pbm-btn input[type="radio"]:checked + label {
+  background: black;
+  color: var(--white);
+  border-bottom: 2px solid var(--primary-color);
+  border-radius: 0;
+  transition: all 0.2s;
+}
+
+.pbm-btn input[type="radio"]:hover + label {
+  font-weight: 900;
+  font-size: 0.9rem;
+  border-bottom: 2px solid var(--white);
+  border-radius: 0;
+  transition: all 0.2s;
+}
+
+.chan-strip-btn input[type="checkbox"]:checked + label {
   background: var(--primary-color);
   color: black;
   transition: all 0.2s;
 }
 
-.chan-strip-btn input[type="checkbox"]:hover + .label {
+.chan-strip-btn input[type="checkbox"]:hover + label {
   border: 1px solid var(--primary-color);
   transition: all 0.2s;
 }

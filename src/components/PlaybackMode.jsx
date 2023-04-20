@@ -15,7 +15,7 @@ function PlaybackMode({ trackIndex, param }) {
   const playbackMode = currentTracks[trackIndex].playbackMode[`${param}`];
 
   return (
-    <div>
+    <div className="pbm-btn">
       <input
         type="radio"
         id={`record-${trackIndex}`}

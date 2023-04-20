@@ -5,7 +5,7 @@ function Mute({ trackIndex, channel }) {
   const mute = state.context.track.mutes[trackIndex];
 
   return (
-    <div className="chan-strip-btn">
+    <>
       <input
         id={`trackMute${trackIndex}`}
         type="checkbox"
@@ -18,10 +18,8 @@ function Mute({ trackIndex, channel }) {
         }}
         checked={mute}
       />
-      <label className="label" htmlFor={`trackMute${trackIndex}`}>
-        M
-      </label>
-    </div>
+      <label htmlFor={`trackMute${trackIndex}`}>M</label>
+    </>
   );
 }
 

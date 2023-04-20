@@ -5,7 +5,7 @@ function Solo({ trackIndex, channel }) {
   const solo = state.context.track.solos[trackIndex];
 
   return (
-    <div className="chan-strip-btn">
+    <>
       <input
         id={`trackSolo${trackIndex}`}
         type="checkbox"
@@ -18,10 +18,8 @@ function Solo({ trackIndex, channel }) {
         }}
         checked={solo}
       />
-      <label className="label" htmlFor={`trackSolo${trackIndex}`}>
-        S
-      </label>
-    </div>
+      <label htmlFor={`trackSolo${trackIndex}`}>S</label>
+    </>
   );
 }
 

@@ -7,7 +7,7 @@ import TrackFader from "./TrackFader";
 function ChannelStrip({ track, trackIndex, channel }) {
   return (
     <div className="channel">
-      <div className="flex">
+      <div className="chan-strip-btn">
         <Solo trackIndex={trackIndex} channel={channel} />
         <Mute trackIndex={trackIndex} channel={channel} />
       </div>
