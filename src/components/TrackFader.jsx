@@ -5,10 +5,12 @@ import { MixerMachineContext } from "../App";
 import Range from "./Range";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../../db";
+import { play } from "../assets/icons";
 
 function TrackFader({ channel, trackIndex }) {
   const [state, send] = MixerMachineContext.useActor();
-  const loop = useRef(null);
+  const recordLoop = useRef(null);
+  const playbackLoop = useRef(null);
   const currentTracks = JSON.parse(localStorage.getItem("currentTracks"));
   const volume = parseFloat(state.context.track.volumes[trackIndex]);
 
@@ -16,7 +18,7 @@ function TrackFader({ channel, trackIndex }) {
 
   // !!! --- START RECORDING --- !!! //
   useEffect(() => {
-    loop.current = new Loop(() => {
+    recordLoop.current = new Loop(() => {
       if (currentTracks[trackIndex].playbackMode.volume !== "record") return;
       send({
         type: "RECORD",
@@ -26,7 +28,7 @@ function TrackFader({ channel, trackIndex }) {
     }, 0.1).start(0);
 
     return () => {
-      loop.current.dispose();
+      recordLoop.current.dispose();
     };
   }, [send, trackIndex, currentTracks, volume]);
 
@@ -34,14 +36,18 @@ function TrackFader({ channel, trackIndex }) {
   useEffect(() => {
     if (!mixData) return;
 
-    console.log("mixData1", mixData);
+    playbackLoop.current = new Loop(() => {
+      send({
+        type: "PLAYBACK",
+        trackIndex,
+        channel,
+        mixData,
+      });
+    }, 0.1).start(0);
 
-    send({
-      type: "PLAYBACK",
-      trackIndex,
-      channel,
-      mixData,
-    });
+    return () => {
+      playbackLoop.current.dispose();
+    };
   }, [trackIndex, mixData, channel, send]);
 
   return (

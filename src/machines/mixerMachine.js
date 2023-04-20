@@ -1,7 +1,6 @@
 import { createMachine, assign } from "xstate";
 import { pure } from "xstate/lib/actions";
 import { Destination, Draw, Transport as t } from "tone";
-import { transpose } from "../utils/scale";
 import { dBToPercent, scale } from "../utils/scale";
 import { db } from "../../db";
 import { roxanne } from "../songs";
@@ -38,7 +37,7 @@ const savedPlaybackModes = currentTracks.map(
 
 export const mixerMachine = createMachine(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5QBcBOBDAdrADge1WQDoAbPdCAS0ygGIAZAeQEEARAUVYG0AGAXUSh8sSskp5MgkAA9EAWgAsRAEzKAbAFY1yjQBoQAT0QBmHsqIaAvpf1osuAsRwl0B6nQAKzAKoBldrwCSCDCouKSwbIImkQAjLEA7LEAHAl6hiaa1rYY2PiERM6u7rS+ACqMHoFSoWISUlEx8Ump6UYICsoJFtkgdnmOhS5uNLQASuwA6gCSAHLc-DV4InURoI0acYkpafrtCgCcPL39DgVFI3QAYoxjk8xjrHMA4tXBteENiE3brXuIGgOySIPASyViOhOuTOTmGJQAwgAJZizZ7sAD6ADVGPRvABZAKLd7LML1SLfTbNHZtRAJHhqOJaSE2PrQ-Kw4qjJEotHoryzN5CEmrL7RSm-XYZBDgpTKYwKYxpKH2dmFdAAV1gkFoHnozAAmoKQsLPuSxURksoeMYITSEAdVEQbcycirBjgNVqIKUKlUiUKVqb1hSLVbnXagUpwS7WW6CrBkHgcDhtbqDUaPmTgwgEuZVJptHbYjwFN1w9YWZg8BA4FJTuyloGszJ5ClgclLdGixpzFYWfXBmQKO5G6S1i2EDx-ghlApjv22e64TRRyKzXJYnOLZ3bdOFcplQNzp7IKugxON1uO8ou9OtAy+66j8QE0mUxAz82opeeNub7upTpWIK0sIA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QFsCWAPMAnAxAJQFEBlAgFQG0AGAXUVAAcB7WVAF1UYDs6R1EAWAKwA2AHT8AHJX7CJAdkEAaEAE9EAWgCMmuaOGVBM+YIC+J5Wky5CAdQCSAOQAiVWkhBMW7LjzUItCsp8CHKUAJyignISmgBMpuYgltg4AGKprjyebBzc7n4BSryIoRFRMfFmFhgpAMIAEgCCDgDiBAD6AGoA8gAyAKoAsgSZ7tneeaAFOkXBpZHRcQnVVjgNzW3tg41EpAR4XX1DIzRZzDk++RozQSXhCxXLSTW4660dAArNowznE77XQLFEL3cpLKrPVakbotFq9DpEPrdH4eP65AH+G7A+ZgyqJZK4aGw+Fbfp7FHjdFXTFAuagxZ4lbYUQAG0YAEMIKhOFAcL1uo0nAQXKcxmjLqBgpoJLFRABmSiUBlFaYSMRhQRy8H4l6iegs9kqbm8j69RoATQAQo1agBpCniybAyjKPyUCEEvUGo08nBffokB1eKmSxCxSjCV2IHSUB7aplYL2G434Ai1bp4EVuX7BiXAuVywTiKKULXxKMIWI6USxORy-hyhQe3WwViMej0SB+s3moMXJ3BKty0SacKNlWIOVq0R1htNnVWUSt9udiBrJrvdqmi3Wu1bbpCvv-dyDzTD0dhccV-hhfiiR5mRKcRgQOA8AlnXMDjSSCvqWt3kIZZPJ6bKcsan79jwwSSHoZ6xI8f7SuqmrxpCzL6smPKQceoYIC6qiTnId4gS2bYdpAOEhsCOgSOIYT6JeQIFLe97RGEEZ4mYQA */
     id: "mixer",
     initial: "loading",
     context: {
@@ -60,7 +59,6 @@ export const mixerMachine = createMachine(
       CHANGE_PAN: { actions: "changePan" },
       TOGGLE_SOLO: { actions: "toggleSolo" },
       TOGGLE_MUTE: { actions: "toggleMute" },
-      PLAYBACK: { actions: "playback" },
     },
 
     states: {
@@ -69,6 +67,7 @@ export const mixerMachine = createMachine(
         on: {
           PAUSE: { actions: "pause", target: "stopped" },
           RECORD: { actions: "record" },
+          PLAYBACK: { actions: "playback" },
         },
       },
       stopped: {
@@ -267,60 +266,60 @@ export const mixerMachine = createMachine(
 
         switch ((trackIndex + 1).toString()) {
           case "1":
-            if (currentTracks[0].playbackMode.volume !== "playback") return;
-            mixData[trackIndex] &&
-              mixData[trackIndex][`track1volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
-              });
+            if (currentTracks[0].playbackMode.volume === "playback")
+              mixData[trackIndex] &&
+                mixData[trackIndex][`track1volume`]?.forEach((mix) => {
+                  assignVolume(trackIndex, mix);
+                });
             break;
           case "2":
-            if (currentTracks[1].playbackMode.volume !== "playback") return;
-            mixData[trackIndex] &&
-              mixData[trackIndex][`track2volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
-              });
+            if (currentTracks[1].playbackMode.volume === "playback")
+              mixData[trackIndex] &&
+                mixData[trackIndex][`track2volume`]?.forEach((mix) => {
+                  assignVolume(trackIndex, mix);
+                });
             break;
           case "3":
-            if (currentTracks[2].playbackMode.volume !== "playback") return;
-            mixData[trackIndex] &&
-              mixData[trackIndex][`track3volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
-              });
+            if (currentTracks[2].playbackMode.volume === "playback")
+              mixData[trackIndex] &&
+                mixData[trackIndex][`track3volume`]?.forEach((mix) => {
+                  assignVolume(trackIndex, mix);
+                });
             break;
           case "4":
-            if (currentTracks[3].playbackMode.volume !== "playback") return;
-            mixData[trackIndex] &&
-              mixData[trackIndex][`track4volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
-              });
+            if (currentTracks[3].playbackMode.volume === "playback")
+              mixData[trackIndex] &&
+                mixData[trackIndex][`track4volume`]?.forEach((mix) => {
+                  assignVolume(trackIndex, mix);
+                });
             break;
           case "5":
-            if (currentTracks[4].playbackMode.volume !== "playback") return;
-            mixData[trackIndex] &&
-              mixData[trackIndex][`track5volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
-              });
+            if (currentTracks[4].playbackMode.volume === "playback")
+              mixData[trackIndex] &&
+                mixData[trackIndex][`track5volume`]?.forEach((mix) => {
+                  assignVolume(trackIndex, mix);
+                });
             break;
           case "6":
-            if (currentTracks[5].playbackMode.volume !== "playback") return;
-            mixData[trackIndex] &&
-              mixData[trackIndex][`track6volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
-              });
+            if (currentTracks[5].playbackMode.volume === "playback")
+              mixData[trackIndex] &&
+                mixData[trackIndex][`track6volume`]?.forEach((mix) => {
+                  assignVolume(trackIndex, mix);
+                });
             break;
           case "7":
-            if (currentTracks[6].playbackMode.volume !== "playback") return;
-            mixData[trackIndex] &&
-              mixData[trackIndex][`track7volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
-              });
+            if (currentTracks[6].playbackMode.volume === "playback")
+              mixData[trackIndex] &&
+                mixData[trackIndex][`track7volume`]?.forEach((mix) => {
+                  assignVolume(trackIndex, mix);
+                });
             break;
           case "8":
-            if (currentTracks[7].playbackMode.volume !== "playback") return;
-            mixData[trackIndex] &&
-              mixData[trackIndex][`track8volume`]?.forEach((mix) => {
-                assignVolume(trackIndex, mix);
-              });
+            if (currentTracks[7].playbackMode.volume === "playback")
+              mixData[trackIndex] &&
+                mixData[trackIndex][`track8volume`]?.forEach((mix) => {
+                  assignVolume(trackIndex, mix);
+                });
             break;
           default:
             break;
