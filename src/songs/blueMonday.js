@@ -16,6 +16,10 @@ export const blueMonday = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
     {
       name: "Drums 2",
@@ -24,6 +28,10 @@ export const blueMonday = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
     {
       name: "Drums 3",
@@ -32,6 +40,10 @@ export const blueMonday = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
     {
       name: "SynthBass",
@@ -40,6 +52,10 @@ export const blueMonday = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
     {
       name: "Bass Gtr",
@@ -48,6 +64,10 @@ export const blueMonday = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
     {
       name: "Synths 1",
@@ -56,6 +76,10 @@ export const blueMonday = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
     {
       name: "Synths 2",
@@ -64,6 +88,10 @@ export const blueMonday = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
     {
       name: "Vocals",
@@ -72,6 +100,10 @@ export const blueMonday = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
   ],
 };

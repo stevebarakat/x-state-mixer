@@ -4,7 +4,7 @@ import { formatMilliseconds } from "../../utils";
 
 function Clock({ song }) {
   const requestRef = useRef(null);
-  const [clock, setClock] = useState("0:0:0");
+  const [clock, setClock] = useState(formatMilliseconds(t.seconds));
 
   // make sure song stops at end
   if (song.end !== null && song.start !== null) {

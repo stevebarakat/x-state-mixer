@@ -1,5 +1,5 @@
 import Clock from "./Clock";
-import Stop from "./Stop";
+import Reset from "./Reset";
 import Rewind from "./Rewind";
 import { FastForward as FF } from "./FastForward";
 import Play from "./Play";
@@ -7,7 +7,7 @@ import Play from "./Play";
 const Transport = ({ song }) => (
   <div className="flex gap12">
     <div className="flex gap4">
-      <Stop />
+      <Reset />
       <Rewind />
       <Play />
       <FF />

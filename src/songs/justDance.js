@@ -16,6 +16,10 @@ export const justDance = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
     {
       name: "Snare",
@@ -24,6 +28,10 @@ export const justDance = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
     {
       name: "Cymbals",
@@ -32,6 +40,10 @@ export const justDance = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
     {
       name: "Synth 1",
@@ -40,6 +52,10 @@ export const justDance = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
     {
       name: "Synth 2",
@@ -48,6 +64,10 @@ export const justDance = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
     {
       name: "Extra Synth",
@@ -56,6 +76,10 @@ export const justDance = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
     {
       name: "Vocals",
@@ -64,6 +88,10 @@ export const justDance = {
       pan: 0,
       mute: false,
       solo: false,
+      playbackMode: {
+        volume: "free",
+        pan: "free",
+      },
     },
   ],
 };

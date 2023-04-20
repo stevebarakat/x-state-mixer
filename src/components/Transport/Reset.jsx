@@ -2,13 +2,13 @@ import { MixerMachineContext } from "../../App";
 import Button from "../Button";
 import { restart } from "../../assets/icons";
 
-function Stop() {
+function Reset() {
   const [, send] = MixerMachineContext.useActor();
 
   return (
     <Button
       onClick={() => {
-        send("STOP");
+        send("RESET");
       }}
     >
       {restart}
@@ -16,4 +16,4 @@ function Stop() {
   );
 }
 
-export default Stop;
+export default Reset;

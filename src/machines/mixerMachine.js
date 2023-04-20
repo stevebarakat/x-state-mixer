@@ -1,6 +1,7 @@
 import { createMachine, assign } from "xstate";
 import { pure } from "xstate/lib/actions";
-import { Destination, Transport as t } from "tone";
+import { Destination, Draw, Transport as t } from "tone";
+import { transpose } from "../utils/scale";
 import { dBToPercent, scale } from "../utils/scale";
 import { db } from "../../db";
 import { roxanne } from "../songs";
@@ -51,6 +52,7 @@ export const mixerMachine = createMachine(
       },
     },
     on: {
+      RESET: { actions: "reset", target: "stopped" },
       REWIND: { actions: "rewind" },
       FF: { actions: "fastForward" },
       CHANGE_VOLUME: { actions: "changeVolume" },
@@ -58,6 +60,7 @@ export const mixerMachine = createMachine(
       CHANGE_PAN: { actions: "changePan" },
       TOGGLE_SOLO: { actions: "toggleSolo" },
       TOGGLE_MUTE: { actions: "toggleMute" },
+      PLAYBACK: { actions: "playback" },
     },
 
     states: {
@@ -65,7 +68,6 @@ export const mixerMachine = createMachine(
       playing: {
         on: {
           PAUSE: { actions: "pause", target: "stopped" },
-          STOP: { actions: "stop", target: "stopped" },
           RECORD: { actions: "record" },
         },
       },
@@ -83,7 +85,7 @@ export const mixerMachine = createMachine(
     actions: {
       play: () => t.start(),
       pause: () => t.pause(),
-      stop: () => {
+      reset: () => {
         t.stop();
         t.seconds = song.start ?? 0;
       },
@@ -240,8 +242,78 @@ export const mixerMachine = createMachine(
           },
           default: () => null,
         };
-
         (switcher[trackIndex + 1] || switcher.default)();
+      }),
+
+      playback: assign((context, { trackIndex, channel, mixData }) => {
+        console.log("mixData2", mixData);
+
+        function assignVolume(trackIndex, mix) {
+          t.schedule((time) => {
+            if (currentTracks[trackIndex].playbackMode.volume !== "playback")
+              return;
+            Draw.schedule(() => {
+              console.log("mix.volume", mix.volume);
+              console.log("context", context.track.volumes[trackIndex]);
+              channel.volume.value = mix.volume;
+              context.track.volumes[trackIndex] = mix.volume;
+            }, time);
+          }, mix.time);
+        }
+
+        const switcher = {
+          1: () => {
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track1volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
+          },
+          2: () => {
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track2volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
+          },
+          3: () => {
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track3volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
+          },
+          4: () => {
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track4volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
+          },
+          5: () => {
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track5volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
+          },
+          6: () => {
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track6volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
+          },
+          7: () => {
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track7volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
+          },
+          8: () => {
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track8volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
+          },
+          default: () => console.log("Unknown"),
+        };
+
+        (switcher[(trackIndex + 1).toString()] || switcher.default)();
       }),
     },
   }
