@@ -21,8 +21,8 @@ function TrackFader({ channel, trackIndex }) {
       send({
         type: "RECORD",
         param: "volume",
+        value: volume,
         trackIndex,
-        volume,
       });
     }, 0.1).start(0);
 
