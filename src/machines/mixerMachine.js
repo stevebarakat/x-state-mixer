@@ -211,34 +211,34 @@ export const mixerMachine = createMachine(
               [`track4${param}`]: param4,
             });
           },
-          // 5: async () => {
-          //   track5volume = [{ time, volume }, ...track5volume];
-          //   await db.mixData.put({
-          //     id: "track5",
-          //     track5volume,
-          //   });
-          // },
-          // 6: async () => {
-          //   track6volume = [{ time, volume }, ...track6volume];
-          //   await db.mixData.put({
-          //     id: "track6",
-          //     track6volume,
-          //   });
-          // },
-          // 7: async () => {
-          //   track7volume = [{ time, volume }, ...track7volume];
-          //   await db.mixData.put({
-          //     id: "track7",
-          //     track7volume,
-          //   });
-          // },
-          // 8: async () => {
-          //   track8volume = [{ time, volume }, ...track8volume];
-          //   await db.mixData.put({
-          //     id: "track8",
-          //     track8volume,
-          //   });
-          // },
+          5: async () => {
+            param5 = [{ time, volume }, ...param5];
+            await db.mixData.put({
+              id: "track5",
+              [`track5${param}`]: param5,
+            });
+          },
+          6: async () => {
+            param6 = [{ time, volume }, ...param6];
+            await db.mixData.put({
+              id: "track6",
+              [`track6${param}`]: param6,
+            });
+          },
+          7: async () => {
+            param7 = [{ time, volume }, ...param7];
+            await db.mixData.put({
+              id: "track7",
+              [`track7${param}`]: param7,
+            });
+          },
+          8: async () => {
+            param8 = [{ time, volume }, ...param8];
+            await db.mixData.put({
+              id: "track8",
+              [`track8${param}`]: param8,
+            });
+          },
           default: () => null,
         };
         (switcher[trackIndex + 1] || switcher.default)();
