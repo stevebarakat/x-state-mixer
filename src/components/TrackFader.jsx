@@ -16,97 +16,19 @@ function TrackFader({ channel, trackIndex }) {
 
   // !!! --- START RECORDING --- !!! //
   useEffect(() => {
-    let track1volume = [];
-    let track2volume = [];
-    let track3volume = [];
-    let track4volume = [];
-    let track5volume = [];
-    let track6volume = [];
-    let track7volume = [];
-    let track8volume = [];
-
     loop.current = new Loop(() => {
       if (currentTracks[trackIndex].playbackMode.volume !== "record") return;
-
-      async function record() {
-        const time = t.seconds.toFixed(1);
-        const switcher = {
-          1: async () => {
-            track1volume = [{ time, volume }, ...track1volume];
-            await db.mixData.put({
-              id: "track1",
-              track1volume,
-            });
-          },
-          2: async () => {
-            track2volume = [{ time, volume }, ...track2volume];
-            await db.mixData.put({
-              id: "track2",
-              track2volume,
-            });
-          },
-          3: async () => {
-            track3volume = [{ time, volume }, ...track3volume];
-            await db.mixData.put({
-              id: "track3",
-              track3volume,
-            });
-          },
-          4: async () => {
-            track4volume = [{ time, volume }, ...track4volume];
-            await db.mixData.put({
-              id: "track4",
-              track4volume,
-            });
-          },
-          5: async () => {
-            track5volume = [{ time, volume }, ...track5volume];
-            await db.mixData.put({
-              id: "track5",
-              track5volume,
-            });
-          },
-          6: async () => {
-            track6volume = [{ time, volume }, ...track6volume];
-            await db.mixData.put({
-              id: "track6",
-              track6volume,
-            });
-          },
-          7: async () => {
-            track7volume = [{ time, volume }, ...track7volume];
-            await db.mixData.put({
-              id: "track7",
-              track7volume,
-            });
-          },
-          8: async () => {
-            track8volume = [{ time, volume }, ...track8volume];
-            await db.mixData.put({
-              id: "track8",
-              track8volume,
-            });
-          },
-          default: () => null,
-        };
-
-        (switcher[trackIndex + 1] || switcher.default)();
-      }
-      record();
+      send({
+        type: "RECORD",
+        trackIndex,
+        volume,
+      });
     }, 0.1).start(0);
 
     return () => {
       loop.current.dispose();
     };
-  }, [
-    trackIndex,
-    currentTracks,
-    channel.volume,
-    mixData,
-    loop,
-    volume,
-    state.context.track.playbackMode,
-  ]);
+  }, [send, trackIndex, currentTracks, volume]);
 
   // !!! --- START PLAYBACK --- !!! //
   useEffect(() => {

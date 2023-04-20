@@ -1,9 +1,7 @@
 import { MixerMachineContext } from "../App";
 
 function PlaybackMode({ trackIndex, param }) {
-  const [state, send] = MixerMachineContext.useActor();
-
-  // const playbackMode = state.context.track.playbackModes[trackIndex];
+  const [, send] = MixerMachineContext.useActor();
 
   function changePlaybackMode(e) {
     send({

@@ -8,8 +8,8 @@ import { mixerMachine } from "./machines/mixerMachine";
 export const MixerMachineContext = createActorContext(mixerMachine);
 
 function App() {
-  const [song, setSong] = useState(
-    () => JSON.parse(localStorage.getItem("song")) ?? roxanne
+  const [song, setSong] = useState(() =>
+    JSON.parse(localStorage.getItem("song"))
   );
 
   function onChange(e) {

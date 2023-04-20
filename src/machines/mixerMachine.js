@@ -2,21 +2,26 @@ import { createMachine, assign } from "xstate";
 import { pure } from "xstate/lib/actions";
 import { Destination, Transport as t } from "tone";
 import { dBToPercent, scale } from "../utils/scale";
+import { db } from "../../db";
 import { roxanne } from "../songs";
 
-const song = JSON.parse(localStorage.getItem("song")) ?? roxanne;
-
-const currentTracks =
-  JSON.parse(localStorage.getItem("currentTracks")) || roxanne.tracks;
+const getSong = () => {
+  let song = JSON.parse(localStorage.getItem("song"));
+  let currentTracks = JSON.parse(localStorage.getItem("currentTracks"));
+  if (!song || !currentTracks) {
+    localStorage.setItem("song", JSON.stringify(roxanne));
+    localStorage.setItem("currentTracks", JSON.stringify(roxanne.tracks));
+    song = roxanne;
+    currentTracks = roxanne.tracks;
+  }
+  return [song, currentTracks];
+};
+const [song, currentTracks] = getSong();
 
 const savedVolumes = currentTracks.map((currentTrack) => currentTrack.volume);
-
 const savedPans = currentTracks.map((currentTrack) => currentTrack.pan);
-
 const savedMutes = currentTracks.map((currentTrack) => currentTrack.mute);
-
 const savedSolos = currentTracks.map((currentTrack) => currentTrack.solo);
-
 const savedPlaybackModes = currentTracks.map(
   (currentTrack) => currentTrack.playbackMode
 );
@@ -37,7 +42,13 @@ export const mixerMachine = createMachine(
       },
     },
     on: {
-      LOADED: { actions: "stop", target: "stopped" },
+      REWIND: { actions: "rewind" },
+      FF: { actions: "fastForward" },
+      CHANGE_VOLUME: { actions: "changeVolume" },
+      CHANGE_MASTER_VOLUME: { actions: "changeMasterVolume" },
+      CHANGE_PAN: { actions: "changePan" },
+      TOGGLE_SOLO: { actions: "toggleSolo" },
+      TOGGLE_MUTE: { actions: "toggleMute" },
     },
 
     states: {
@@ -46,25 +57,13 @@ export const mixerMachine = createMachine(
         on: {
           PAUSE: { actions: "pause", target: "stopped" },
           STOP: { actions: "stop", target: "stopped" },
-          REWIND: { actions: "rewind" },
-          FF: { actions: "fastForward" },
-          CHANGE_VOLUME: { actions: "changeVolume" },
-          CHANGE_MASTER_VOLUME: { actions: "changeMasterVolume" },
-          CHANGE_PAN: { actions: "changePan" },
-          TOGGLE_SOLO: { actions: "toggleSolo" },
-          TOGGLE_MUTE: { actions: "toggleMute" },
+          RECORDING: { actions: "record" },
         },
       },
       stopped: {
         on: {
           PLAY: { actions: "play", target: "playing" },
-          REWIND: { actions: "rewind" },
-          FF: { actions: "fastForward" },
-          CHANGE_VOLUME: { actions: "changeVolume" },
-          CHANGE_MASTER_VOLUME: { actions: "changeMasterVolume" },
-          CHANGE_PAN: { actions: "changePan" },
-          TOGGLE_SOLO: { actions: "toggleSolo" },
-          TOGGLE_MUTE: { actions: "toggleMute" },
+          CHANGE_PLAYBACK_MODE: { actions: "changePlaybackMode" },
         },
       },
     },
@@ -79,8 +78,11 @@ export const mixerMachine = createMachine(
         t.stop();
         t.seconds = song.start ?? 0;
       },
-      fastForward: () => (t.seconds = t.seconds + 10),
-      rewind: () => (t.seconds = t.seconds > 10 ? t.seconds - 10 : 0),
+      fastForward: () =>
+        (t.seconds =
+          t.seconds < song.end - 10 ? t.seconds + 10 : (t.seconds = song.end)),
+      rewind: () =>
+        (t.seconds = t.seconds > 10 + song.start ? t.seconds - 10 : 0),
 
       changeMasterVolume: pure((_, { target }) => {
         const scaled = dBToPercent(scale(parseFloat(target.value)));
@@ -166,6 +168,79 @@ export const mixerMachine = createMachine(
           JSON.stringify([...currentTracks])
         );
         return [assign({ playbackMode: tempPlaybackModes })];
+      }),
+
+      record: assign(async (context, { trackIndex, volume }) => {
+        let track1volume = [];
+        let track2volume = [];
+        let track3volume = [];
+        let track4volume = [];
+        let track5volume = [];
+        let track6volume = [];
+        let track7volume = [];
+        let track8volume = [];
+        const time = t.seconds.toFixed(1);
+        const switcher = {
+          1: async () => {
+            track1volume = [{ time, volume }, ...track1volume];
+            await db.mixData.put({
+              id: "track1",
+              track1volume,
+            });
+          },
+          2: async () => {
+            track2volume = [{ time, volume }, ...track2volume];
+            await db.mixData.put({
+              id: "track2",
+              track2volume,
+            });
+          },
+          3: async () => {
+            track3volume = [{ time, volume }, ...track3volume];
+            await db.mixData.put({
+              id: "track3",
+              track3volume,
+            });
+          },
+          4: async () => {
+            track4volume = [{ time, volume }, ...track4volume];
+            await db.mixData.put({
+              id: "track4",
+              track4volume,
+            });
+          },
+          5: async () => {
+            track5volume = [{ time, volume }, ...track5volume];
+            await db.mixData.put({
+              id: "track5",
+              track5volume,
+            });
+          },
+          6: async () => {
+            track6volume = [{ time, volume }, ...track6volume];
+            await db.mixData.put({
+              id: "track6",
+              track6volume,
+            });
+          },
+          7: async () => {
+            track7volume = [{ time, volume }, ...track7volume];
+            await db.mixData.put({
+              id: "track7",
+              track7volume,
+            });
+          },
+          8: async () => {
+            track8volume = [{ time, volume }, ...track8volume];
+            await db.mixData.put({
+              id: "track8",
+              track8volume,
+            });
+          },
+          default: () => null,
+        };
+
+        (switcher[trackIndex + 1] || switcher.default)();
       }),
     },
   }
