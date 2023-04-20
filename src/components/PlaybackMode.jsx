@@ -18,33 +18,33 @@ function PlaybackMode({ trackIndex, param }) {
     <div className="pbm-btn">
       <input
         type="radio"
-        id={`record-${trackIndex}`}
-        name={`playbackMode-${trackIndex}`}
+        id={`record-${param}-${trackIndex}`}
+        name={`pbm-${param}-${trackIndex}`}
         value="record"
         onChange={changePlaybackMode}
         checked={playbackMode === "record"}
       />
-      <label htmlFor={`record-${trackIndex}`}>R</label>
+      <label htmlFor={`record-${param}-${trackIndex}`}>R</label>
 
       <input
         type="radio"
-        id={`playback-${trackIndex}`}
-        name={`playbackMode-${trackIndex}`}
+        id={`playback-${param}-${trackIndex}`}
+        name={`pbm-${param}-${trackIndex}`}
         value="playback"
         onChange={changePlaybackMode}
         checked={playbackMode === "playback"}
       />
-      <label htmlFor={`playback-${trackIndex}`}>P</label>
+      <label htmlFor={`playback-${param}-${trackIndex}`}>P</label>
 
       <input
         type="radio"
-        id={`static-${trackIndex}`}
-        name={`playbackMode-${trackIndex}`}
+        id={`static-${param}-${trackIndex}`}
+        name={`pbm-${param}-${trackIndex}`}
         value="static"
         onChange={changePlaybackMode}
         checked={playbackMode === "static"}
       />
-      <label htmlFor={`static-${trackIndex}`}>S</label>
+      <label htmlFor={`static-${param}-${trackIndex}`}>S</label>
     </div>
   );
 }
