@@ -180,7 +180,7 @@ export const mixerMachine = createMachine(
         return [assign({ playbackMode: tempPlaybackModes })];
       }),
 
-      record: assign(async (context, { trackIndex, volume }) => {
+      record: assign(async (context, { trackIndex, volume, param }) => {
         const time = t.seconds.toFixed(1);
         const switcher = {
           1: async () => {
@@ -244,10 +244,12 @@ export const mixerMachine = createMachine(
         (switcher[trackIndex + 1] || switcher.default)();
       }),
 
-      playback: assign((context, { trackIndex, channel, mixData }) => {
+      playback: assign((context, { trackIndex, channel, mixData, param }) => {
         function assignVolume(trackIndex, mix) {
           t.schedule((time) => {
-            if (currentTracks[trackIndex].playbackMode.volume !== "playback")
+            if (
+              currentTracks[trackIndex].playbackMode[`${param}`] !== "playback"
+            )
               return;
 
             Draw.schedule(() => {
@@ -259,60 +261,52 @@ export const mixerMachine = createMachine(
 
         switch ((trackIndex + 1).toString()) {
           case "1":
-            if (currentTracks[0].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track1volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track1volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
             break;
           case "2":
-            if (currentTracks[1].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track2volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track2volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
             break;
           case "3":
-            if (currentTracks[2].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track3volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track3volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
             break;
           case "4":
-            if (currentTracks[3].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track4volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track4volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
             break;
           case "5":
-            if (currentTracks[4].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track5volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track5volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
             break;
           case "6":
-            if (currentTracks[5].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track6volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track6volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
             break;
           case "7":
-            if (currentTracks[6].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track7volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track7volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
             break;
           case "8":
-            if (currentTracks[7].playbackMode.volume === "playback")
-              mixData[trackIndex] &&
-                mixData[trackIndex][`track8volume`]?.forEach((mix) => {
-                  assignVolume(trackIndex, mix);
-                });
+            mixData[trackIndex] &&
+              mixData[trackIndex][`track8volume`]?.forEach((mix) => {
+                assignVolume(trackIndex, mix);
+              });
             break;
           default:
             break;
