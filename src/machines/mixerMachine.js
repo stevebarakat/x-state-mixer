@@ -246,13 +246,15 @@ export const mixerMachine = createMachine(
 
       playback: assign((context, { trackIndex, channel, mixData, param }) => {
         function assignParam(trackIndex, mix) {
-          Draw.schedule(() => {
-            // if (
-            //   currentTracks[trackIndex].playbackMode[`${param}`] !== "playback"
-            // )
-            //   return;
-            channel[`${param}`].value = mix[`${param}`];
-            context.track[`${param}s`][trackIndex] = mix[`${param}`];
+          t.schedule((time) => {
+            if (
+              currentTracks[trackIndex].playbackMode[`${param}`] !== "playback"
+            )
+              return;
+            Draw.schedule(() => {
+              channel[`${param}`].value = mix[`${param}`];
+              context.track[`${param}s`][trackIndex] = mix[`${param}`];
+            }, time);
           }, mix.time);
         }
 
