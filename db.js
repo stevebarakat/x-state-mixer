@@ -49,14 +49,14 @@ db.on("ready", function (db) {
       //   });
 
       const data = [
-        { id: "track1", volume: -32 },
-        { id: "track2", volume: -32 },
-        { id: "track3", volume: -32 },
-        { id: "track4", volume: -32 },
-        { id: "track5", volume: -32 },
-        { id: "track6", volume: -32 },
-        { id: "track7", volume: -32 },
-        { id: "track8", volume: -32 },
+        { id: "track1", volume: [{ time: 0, volume: -32 }] },
+        { id: "track2", volume: [{ time: 0, volume: -32 }] },
+        { id: "track3", volume: [{ time: 0, volume: -32 }] },
+        { id: "track4", volume: [{ time: 0, volume: -32 }] },
+        { id: "track5", volume: [{ time: 0, volume: -32 }] },
+        { id: "track6", volume: [{ time: 0, volume: -32 }] },
+        { id: "track7", volume: [{ time: 0, volume: -32 }] },
+        { id: "track8", volume: [{ time: 0, volume: -32 }] },
       ];
 
       return db.mixData.bulkAdd(data);

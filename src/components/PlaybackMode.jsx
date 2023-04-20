@@ -38,13 +38,13 @@ function PlaybackMode({ trackIndex, param }) {
 
       <input
         type="radio"
-        id={`free-${trackIndex}`}
+        id={`static-${trackIndex}`}
         name={`playbackMode-${trackIndex}`}
-        value="free"
+        value="static"
         onChange={changePlaybackMode}
-        checked={playbackMode === "free"}
+        checked={playbackMode === "static"}
       />
-      <label htmlFor={`free-${trackIndex}`}>F</label>
+      <label htmlFor={`static-${trackIndex}`}>S</label>
     </div>
   );
 }

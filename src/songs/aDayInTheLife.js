@@ -17,8 +17,8 @@ export const aDayInTheLife = {
       mute: false,
       solo: false,
       playbackMode: {
-        volume: "free",
-        pan: "free",
+        volume: "static",
+        pan: "static",
       },
     },
     {
@@ -29,8 +29,8 @@ export const aDayInTheLife = {
       mute: false,
       solo: false,
       playbackMode: {
-        volume: "free",
-        pan: "free",
+        volume: "static",
+        pan: "static",
       },
     },
     {
@@ -41,8 +41,8 @@ export const aDayInTheLife = {
       mute: false,
       solo: false,
       playbackMode: {
-        volume: "free",
-        pan: "free",
+        volume: "static",
+        pan: "static",
       },
     },
     {
@@ -53,8 +53,8 @@ export const aDayInTheLife = {
       mute: false,
       solo: false,
       playbackMode: {
-        volume: "free",
-        pan: "free",
+        volume: "static",
+        pan: "static",
       },
     },
   ],

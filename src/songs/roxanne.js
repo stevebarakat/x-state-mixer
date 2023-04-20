@@ -19,8 +19,8 @@ export const roxanne = {
       mute: false,
       solo: false,
       playbackMode: {
-        volume: "free",
-        pan: "free",
+        volume: "static",
+        pan: "static",
       },
     },
     {
@@ -32,8 +32,8 @@ export const roxanne = {
       mute: false,
       solo: false,
       playbackMode: {
-        volume: "free",
-        pan: "free",
+        volume: "static",
+        pan: "static",
       },
     },
     {
@@ -45,8 +45,8 @@ export const roxanne = {
       mute: false,
       solo: false,
       playbackMode: {
-        volume: "free",
-        pan: "free",
+        volume: "static",
+        pan: "static",
       },
     },
     {
@@ -58,8 +58,8 @@ export const roxanne = {
       mute: false,
       solo: false,
       playbackMode: {
-        volume: "free",
-        pan: "free",
+        volume: "static",
+        pan: "static",
       },
     },
   ],
