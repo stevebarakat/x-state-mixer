@@ -92,7 +92,7 @@ export const mixerMachine = createMachine(
         (t.seconds =
           t.seconds < song.end - 10 ? t.seconds + 10 : (t.seconds = song.end)),
       rewind: () =>
-        (t.seconds = t.seconds > 10 + song.start ? t.seconds - 10 : 0),
+        (t.seconds = t.seconds > 10 + song.start ? t.seconds - 10 : song.start),
 
       changeMasterVolume: pure((_, { target }) => {
         const scaled = dBToPercent(scale(parseFloat(target.value)));
