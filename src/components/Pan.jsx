@@ -11,41 +11,41 @@ function Pan({ trackIndex, channel }) {
   const recordLoop = useRef(null);
   const playbackLoop = useRef(null);
   const currentTracks = JSON.parse(localStorage.getItem("currentTracks"));
-  const mixData = useLiveQuery(() => db.mixData.toArray());
+  // const mixData = useLiveQuery(() => db.mixData.toArray());
 
-  // !!! --- RECORD --- !!! //
-  useEffect(() => {
-    recordLoop.current = new Loop(() => {
-      if (currentTracks[trackIndex].playbackMode.pan !== "record") return;
-      send({
-        type: "RECORD",
-        param: "pan",
-        value: pan,
-        trackIndex,
-      });
-    }, 0.1).start(0);
+  // // !!! --- RECORD --- !!! //
+  // useEffect(() => {
+  //   recordLoop.current = new Loop(() => {
+  //     if (currentTracks[trackIndex].playbackMode.pan !== "record") return;
+  //     send({
+  //       type: "RECORD",
+  //       param: "pan",
+  //       value: pan,
+  //       trackIndex,
+  //     });
+  //   }, 0.1).start(0);
 
-    return () => {
-      recordLoop.current.dispose();
-    };
-  }, [send, trackIndex, currentTracks, pan]);
+  //   return () => {
+  //     recordLoop.current.dispose();
+  //   };
+  // }, [send, trackIndex, currentTracks, pan]);
 
-  // !!! --- PLAYBACK --- !!! //
-  useEffect(() => {
-    playbackLoop.current = new Loop(() => {
-      send({
-        type: "PLAYBACK",
-        param: "pan",
-        trackIndex,
-        channel,
-        mixData,
-      });
-    }, 0.1).start(0);
+  // // !!! --- PLAYBACK --- !!! //
+  // useEffect(() => {
+  //   playbackLoop.current = new Loop(() => {
+  //     send({
+  //       type: "PLAYBACK",
+  //       param: "pan",
+  //       trackIndex,
+  //       channel,
+  //       mixData,
+  //     });
+  //   }, 0.1).start(0);
 
-    return () => {
-      playbackLoop.current.dispose();
-    };
-  }, [send, trackIndex, mixData, channel]);
+  //   return () => {
+  //     playbackLoop.current.dispose();
+  //   };
+  // }, [send, trackIndex, mixData, channel]);
 
   return (
     <Range

@@ -11,41 +11,41 @@ function TrackFader({ channel, trackIndex }) {
   const recordLoop = useRef(null);
   const playbackLoop = useRef(null);
   const currentTracks = JSON.parse(localStorage.getItem("currentTracks"));
-  const mixData = useLiveQuery(() => db.mixData.toArray());
+  // const mixData = useLiveQuery(() => db.mixData.toArray());
 
-  // !!! --- RECORD --- !!! //
-  useEffect(() => {
-    recordLoop.current = new Loop(() => {
-      if (currentTracks[trackIndex].playbackMode.volume !== "record") return;
-      send({
-        type: "RECORD",
-        param: "volume",
-        value: volume,
-        trackIndex,
-      });
-    }, 0.1).start(0);
+  // // !!! --- RECORD --- !!! //
+  // useEffect(() => {
+  //   recordLoop.current = new Loop(() => {
+  //     if (currentTracks[trackIndex].playbackMode.volume !== "record") return;
+  //     send({
+  //       type: "RECORD",
+  //       param: "volume",
+  //       value: volume,
+  //       trackIndex,
+  //     });
+  //   }, 0.1).start(0);
 
-    return () => {
-      recordLoop.current.dispose();
-    };
-  }, [send, trackIndex, currentTracks, volume]);
+  //   return () => {
+  //     recordLoop.current.dispose();
+  //   };
+  // }, [send, trackIndex, currentTracks, volume]);
 
-  // !!! --- PLAYBACK --- !!! //
-  useEffect(() => {
-    playbackLoop.current = new Loop(() => {
-      send({
-        type: "PLAYBACK",
-        param: "volume",
-        trackIndex,
-        channel,
-        mixData,
-      });
-    }, 0.1).start(0);
+  // // !!! --- PLAYBACK --- !!! //
+  // useEffect(() => {
+  //   playbackLoop.current = new Loop(() => {
+  //     send({
+  //       type: "PLAYBACK",
+  //       param: "volume",
+  //       trackIndex,
+  //       channel,
+  //       mixData,
+  //     });
+  //   }, 0.1).start(0);
 
-    return () => {
-      playbackLoop.current.dispose();
-    };
-  }, [send, trackIndex, mixData, channel]);
+  //   return () => {
+  //     playbackLoop.current.dispose();
+  //   };
+  // }, [send, trackIndex, mixData, channel]);
 
   return (
     <>
