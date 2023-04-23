@@ -3,11 +3,11 @@ import { pure } from "xstate/lib/actions";
 import { start, getContext, Destination, Draw, Transport as t } from "tone";
 import { dBToPercent, scale } from "../utils/scale";
 import { db } from "../../db";
-import { getSong } from "../utils";
+import { getSong } from "../utils/getSong";
 import { roxanne } from "../songs";
 
 const context = getContext();
-const [song, currentTracks] = getSong(JSON.stringify(roxanne));
+const [song, currentTracks] = getSong(roxanne);
 const savedVolumes = currentTracks.map((currentTrack) => currentTrack.volume);
 const savedPans = currentTracks.map((currentTrack) => currentTrack.pan);
 const savedMutes = currentTracks.map((currentTrack) => currentTrack.mute);

@@ -16,19 +16,6 @@ export function updateCurrentMix(setting: object) {
   );
 }
 
-export function getSong(defaultSong: string) {
-  const defaultSongParsed = JSON.parse(defaultSong);
-  let song = JSON.parse(localStorage.getItem("song")!);
-  let currentTracks = JSON.parse(localStorage.getItem("currentTracks")!);
-  if (!song || !currentTracks) {
-    localStorage.setItem("song", defaultSong);
-    localStorage.setItem("currentTracks", defaultSongParsed.tracks);
-    song = defaultSong;
-    currentTracks = defaultSongParsed.tracks;
-  }
-  return [song, currentTracks];
-}
-
 export function getRandomNumber(min: number, max: number) {
   return (Math.random() * (max - min) + min).toFixed(0);
 }

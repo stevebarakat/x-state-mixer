@@ -9,7 +9,7 @@ export const MixerMachineContext = createActorContext(mixerMachine);
 
 function App() {
   const [song, setSong] = useState(() =>
-    JSON.parse(localStorage.getItem("song"))
+    JSON.parse(localStorage.getItem("sourceSong"))
   );
 
   function onChange(e) {
