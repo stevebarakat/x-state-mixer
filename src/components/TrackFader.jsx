@@ -21,7 +21,7 @@ function TrackFader({ channel, trackIndex }) {
       if (currentTracks[trackIndex].playbackMode.volume !== "record") return;
       send({
         type: "RECORD",
-        param: "volume",
+        id: "volume",
         value: volume,
         trackIndex,
       });
@@ -37,7 +37,7 @@ function TrackFader({ channel, trackIndex }) {
   //   playbackLoop.current = new Loop(() => {
   //     send({
   //       type: "PLAYBACK",
-  //       param: "volume",
+  //       id: "volume",
   //       trackIndex,
   //       channel,
   //       mixData,

@@ -19,7 +19,7 @@ function Pan({ trackIndex, channel }) {
   //     if (currentTracks[trackIndex].playbackMode.pan !== "record") return;
   //     send({
   //       type: "RECORD",
-  //       param: "pan",
+  //       id: "pan",
   //       value: pan,
   //       trackIndex,
   //     });
@@ -35,7 +35,7 @@ function Pan({ trackIndex, channel }) {
   //   playbackLoop.current = new Loop(() => {
   //     send({
   //       type: "PLAYBACK",
-  //       param: "pan",
+  //       id: "pan",
   //       trackIndex,
   //       channel,
   //       mixData,
