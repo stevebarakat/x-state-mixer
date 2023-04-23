@@ -16,7 +16,7 @@ function Mute({ trackIndex, channel }) {
             channel,
           });
         }}
-        checked={mute}
+        checked={channel.muted}
       />
       <label htmlFor={`trackMute${trackIndex}`}>M</label>
     </>
