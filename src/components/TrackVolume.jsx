@@ -14,8 +14,9 @@ function TrackVolume({ channel, trackIndex }) {
   const currentTracks = JSON.parse(localStorage.getItem("currentTracks"));
   const track1 = useLiveQuery(() => db.track1.toArray());
 
-  track1 && console.log("track1", track1);
-
+  track1 &&
+    track1[trackIndex].data &&
+    console.log("track1[trackIndex].data!!", track1[trackIndex].data);
   // !!! --- RECORD --- !!! //
   useEffect(() => {
     recordLoop.current = new Loop(() => {
@@ -33,22 +34,22 @@ function TrackVolume({ channel, trackIndex }) {
     };
   }, [send, trackIndex, currentTracks, volume]);
 
-  // // !!! --- PLAYBACK --- !!! //
-  // useEffect(() => {
-  //   playbackLoop.current = new Loop(() => {
-  //     send({
-  //       type: "PLAYBACK",
-  //       id: "volume",
-  //       trackIndex,
-  //       channel,
-  //       mixData,
-  //     });
-  //   }, 0.1).start(0);
+  // !!! --- PLAYBACK --- !!! //
+  useEffect(() => {
+    playbackLoop.current = new Loop(() => {
+      send({
+        type: "PLAYBACK",
+        id: "volume",
+        trackIndex,
+        channel,
+        track1,
+      });
+    }, 0.1).start(0);
 
-  //   return () => {
-  //     playbackLoop.current.dispose();
-  //   };
-  // }, [send, trackIndex, mixData, channel]);
+    return () => {
+      playbackLoop.current.dispose();
+    };
+  }, [send, trackIndex, track1, channel]);
 
   return (
     <>
