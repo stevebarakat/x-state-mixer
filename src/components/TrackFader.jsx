@@ -7,28 +7,30 @@ import { db } from "../../db";
 
 function TrackFader({ channel, trackIndex }) {
   const [state, send] = MixerMachineContext.useActor();
-  const volume = parseFloat(state.context.track.volumes[trackIndex]);
+  const volume = parseFloat(state.context.volumes[trackIndex]);
   const recordLoop = useRef(null);
   const playbackLoop = useRef(null);
   const currentTracks = JSON.parse(localStorage.getItem("currentTracks"));
-  // const mixData = useLiveQuery(() => db.mixData.toArray());
+  const track1 = useLiveQuery(() => db.track1.toArray());
 
-  // // !!! --- RECORD --- !!! //
-  // useEffect(() => {
-  //   recordLoop.current = new Loop(() => {
-  //     if (currentTracks[trackIndex].playbackMode.volume !== "record") return;
-  //     send({
-  //       type: "RECORD",
-  //       param: "volume",
-  //       value: volume,
-  //       trackIndex,
-  //     });
-  //   }, 0.1).start(0);
+  track1 && console.log("track1", track1);
 
-  //   return () => {
-  //     recordLoop.current.dispose();
-  //   };
-  // }, [send, trackIndex, currentTracks, volume]);
+  // !!! --- RECORD --- !!! //
+  useEffect(() => {
+    recordLoop.current = new Loop(() => {
+      if (currentTracks[trackIndex].playbackMode.volume !== "record") return;
+      send({
+        type: "RECORD",
+        param: "volume",
+        value: volume,
+        trackIndex,
+      });
+    }, 0.1).start(0);
+
+    return () => {
+      recordLoop.current.dispose();
+    };
+  }, [send, trackIndex, currentTracks, volume]);
 
   // // !!! --- PLAYBACK --- !!! //
   // useEffect(() => {

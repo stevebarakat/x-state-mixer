@@ -2,7 +2,7 @@ import { MixerMachineContext } from "../App";
 
 function Mute({ trackIndex, channel }) {
   const [state, send] = MixerMachineContext.useActor();
-  const mute = state.context.track.mutes[trackIndex];
+  const mute = state.context.mutes[trackIndex];
 
   return (
     <>

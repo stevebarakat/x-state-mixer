@@ -7,7 +7,7 @@ import { db } from "../../db";
 
 function Pan({ trackIndex, channel }) {
   const [state, send] = MixerMachineContext.useActor();
-  const pan = parseFloat(state.context.track.pans[trackIndex]);
+  const pan = parseFloat(state.context.pans[trackIndex]);
   const recordLoop = useRef(null);
   const playbackLoop = useRef(null);
   const currentTracks = JSON.parse(localStorage.getItem("currentTracks"));

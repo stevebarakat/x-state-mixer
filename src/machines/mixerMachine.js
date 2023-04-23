@@ -42,13 +42,11 @@ export const mixerMachine = createMachine(
     initial: "loading",
     context: {
       masterVolume: -32,
-      track: {
-        volumes: savedVolumes,
-        pans: savedPans,
-        solos: savedSolos,
-        mutes: savedMutes,
-        playbackModes: savedPlaybackModes,
-      },
+      volumes: savedVolumes,
+      pans: savedPans,
+      solos: savedSolos,
+      mutes: savedMutes,
+      playbackModes: savedPlaybackModes,
     },
     on: {
       RESET: { actions: "reset", target: "stopped" },
@@ -109,7 +107,7 @@ export const mixerMachine = createMachine(
         const channelVolume = () => {
           channel.volume.value = scaled;
         };
-        const tempVols = context.track.volumes;
+        const tempVols = context.volumes;
         tempVols[trackIndex] = parseFloat(value);
         currentTracks[trackIndex].volume = parseFloat(value);
         localStorage.setItem(
@@ -125,7 +123,7 @@ export const mixerMachine = createMachine(
         const channelPan = () => {
           channel.pan.value = value;
         };
-        const tempPans = context.track.pans;
+        const tempPans = context.pans;
         tempPans[trackIndex] = parseFloat(value);
         currentTracks[trackIndex].pan = parseFloat(value);
         localStorage.setItem(
@@ -141,7 +139,7 @@ export const mixerMachine = createMachine(
         const muteChannel = () => {
           channel.mute = checked;
         };
-        const tempMutes = context.track.mutes;
+        const tempMutes = context.mutes;
         tempMutes[trackIndex] = checked;
         currentTracks[trackIndex].mute = target.checked;
         localStorage.setItem(
@@ -157,7 +155,7 @@ export const mixerMachine = createMachine(
         const soloChannel = () => {
           channel.solo = checked;
         };
-        const tempSolos = context.track.solos;
+        const tempSolos = context.solos;
         tempSolos[trackIndex] = checked;
         currentTracks[trackIndex].solo = target.checked;
         localStorage.setItem(
@@ -170,7 +168,7 @@ export const mixerMachine = createMachine(
       changePlaybackMode: pure((context, { param, target }) => {
         const trackIndex = target.id.at(-1);
         const value = target.value;
-        const tempPlaybackModes = context.track.playbackModes;
+        const tempPlaybackModes = context.playbackModes;
         tempPlaybackModes[trackIndex] = value;
         currentTracks[trackIndex].playbackMode[`${param}`] = target.value;
         localStorage.setItem(
@@ -184,49 +182,49 @@ export const mixerMachine = createMachine(
         const time = t.seconds.toFixed(1);
         const switcher = {
           1: async () => {
-            param1 = [{ time, [`${param}`]: value }, ...param1];
-            await db.mixData.put({
-              id: "track1",
-              [`${param}`]: param1,
+            param1 = [{ time, value }, ...param1];
+            await db.track1.put({
+              id: param,
+              value: param1,
             });
           },
           2: async () => {
-            param2 = [{ time, [`${param}`]: value }, ...param2];
+            param2 = [{ time, value }, ...param2];
             await db.mixData.put({
               id: "track2",
               [`${param}`]: param2,
             });
           },
           3: async () => {
-            param3 = [{ time, [`${param}`]: value }, ...param3];
+            param3 = [{ time, value }, ...param3];
             await db.mixData.put({
               id: "track3",
               [`${param}`]: param3,
             });
           },
           4: async () => {
-            param4 = [{ time, [`${param}`]: value }, ...param4];
+            param4 = [{ time, value }, ...param4];
             await db.mixData.put({
               id: "track4",
               [`${param}`]: param4,
             });
           },
           5: async () => {
-            param5 = [{ time, [`${param}`]: value }, ...param5];
+            param5 = [{ time, value }, ...param5];
             await db.mixData.put({
               id: "track5",
               [`${param}`]: param5,
             });
           },
           6: async () => {
-            param6 = [{ time, [`${param}`]: value }, ...param6];
+            param6 = [{ time, value }, ...param6];
             await db.mixData.put({
               id: "track6",
               [`${param}`]: param6,
             });
           },
           7: async () => {
-            param7 = [{ time, [`${param}`]: value }, ...param7];
+            param7 = [{ time, value }, ...param7];
             await db.mixData.put({
               id: "track7",
               [`${param}`]: param7,
@@ -255,7 +253,7 @@ export const mixerMachine = createMachine(
               return;
             Draw.schedule(() => {
               channel[`${param}`].value = mix[`${param}`];
-              context.track[`${param}s`][trackIndex] = mix[`${param}`];
+              context[`${param}s`][trackIndex] = mix[`${param}`];
             }, time);
           }, mix.time);
         }
