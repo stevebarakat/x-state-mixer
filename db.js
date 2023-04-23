@@ -32,12 +32,12 @@ db.on("ready", function (db) {
   });
 });
 
-// Following operation will be queued until we're finished populating data:
+// Queued until data finished populating:
 dbIds.forEach((id) => {
   db[`${id}`]
     .each(function (obj) {
-      // When we come here, data is fully populated and we can log all objects.
-      console.log(`Found object: ` + JSON.stringify(obj));
+      // Log objects, limit to 100 characters.
+      console.log(`Found object: ${JSON.stringify(obj).substring(0, 100)}`);
     })
     .then(function () {
       console.log("Finished.");
