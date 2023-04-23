@@ -1,11 +1,12 @@
 import { MixerMachineContext } from "../App";
 import Range from "./Range";
+import PlaybackMode from "./PlaybackMode";
 import { useRef, useEffect } from "react";
 import { Loop, Transport as t } from "tone";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../../db";
 
-function TrackFader({ channel, trackIndex }) {
+function TrackVolume({ channel, trackIndex }) {
   const [state, send] = MixerMachineContext.useActor();
   const volume = parseFloat(state.context.volumes[trackIndex]);
   const recordLoop = useRef(null);
@@ -67,8 +68,9 @@ function TrackFader({ channel, trackIndex }) {
           });
         }}
       />
+      <PlaybackMode trackIndex={trackIndex} id="volume" />
     </>
   );
 }
 
-export default TrackFader;
+export default TrackVolume;

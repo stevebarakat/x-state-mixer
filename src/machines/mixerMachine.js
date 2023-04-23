@@ -23,7 +23,7 @@ export const mixerMachine = createMachine(
     id: "mixer",
     initial: "loading",
     context: {
-      masterVolume: -32,
+      mainVolume: -32,
       volumes: savedVolumes,
       pans: savedPans,
       solos: savedSolos,
@@ -35,7 +35,7 @@ export const mixerMachine = createMachine(
       REWIND: { actions: "rewind" },
       FF: { actions: "fastForward" },
       CHANGE_VOLUME: { actions: "changeVolume" },
-      CHANGE_MASTER_VOLUME: { actions: "changeMasterVolume" },
+      CHANGE_MAIN_VOLUME: { actions: "changeMainVolume" },
       CHANGE_PAN: { actions: "changePan" },
       TOGGLE_SOLO: { actions: "toggleSolo" },
       TOGGLE_MUTE: { actions: "toggleMute" },
@@ -81,12 +81,12 @@ export const mixerMachine = createMachine(
       rewind: () =>
         (t.seconds = t.seconds > 10 + song.start ? t.seconds - 10 : song.start),
 
-      changeMasterVolume: pure((_, { target }) => {
+      changeMainVolume: pure((_, { target }) => {
         const scaled = dBToPercent(scale(parseFloat(target.value)));
         const volume = () => {
           Destination.volume.value = scaled;
         };
-        return [assign({ masterVolume: parseFloat(target.value) }), volume];
+        return [assign({ mainVolume: parseFloat(target.value) }), volume];
       }),
 
       changeVolume: pure((context, { target, channel }) => {

@@ -1,5 +1,6 @@
 import { MixerMachineContext } from "../App";
 import Range from "./Range";
+import PlaybackMode from "./PlaybackMode";
 import { useRef, useEffect } from "react";
 import { Loop, Transport as t } from "tone";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -48,21 +49,24 @@ function Pan({ trackIndex, channel }) {
   // }, [send, trackIndex, mixData, channel]);
 
   return (
-    <Range
-      id={trackIndex}
-      min={-1}
-      max={1}
-      step={0.01}
-      className="range-x"
-      value={pan}
-      onChange={(e) => {
-        send({
-          type: "CHANGE_PAN",
-          target: e.target,
-          channel,
-        });
-      }}
-    />
+    <>
+      <Range
+        id={trackIndex}
+        min={-1}
+        max={1}
+        step={0.01}
+        className="range-x"
+        value={pan}
+        onChange={(e) => {
+          send({
+            type: "CHANGE_PAN",
+            target: e.target,
+            channel,
+          });
+        }}
+      />
+      <PlaybackMode trackIndex={trackIndex} id="pan" />
+    </>
   );
 }
 

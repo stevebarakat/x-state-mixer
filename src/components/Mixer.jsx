@@ -3,7 +3,7 @@ import Transport from "./Transport";
 import Loader from "./Loader";
 import ChannelStrip from "./ChannelStrip";
 import { MixerMachineContext } from "../App";
-import Master from "./Master";
+import MainVolume from "./MainVolume";
 
 export const Mixer = ({ song }) => {
   const tracks = song.tracks;
@@ -26,7 +26,7 @@ export const Mixer = ({ song }) => {
             channel={channels.current[i]}
           />
         ))}
-        <Master />
+        <MainVolume />
       </div>
       <Transport song={song} />
     </div>

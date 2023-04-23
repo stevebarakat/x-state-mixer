@@ -1,8 +1,7 @@
 import Pan from "./Pan";
 import Solo from "./Solo";
 import Mute from "./Mute";
-import PlaybackMode from "./PlaybackMode";
-import TrackFader from "./TrackFader";
+import TrackVolume from "./TrackVolume";
 
 function ChannelStrip({ track, trackIndex, channel }) {
   return (
@@ -12,9 +11,7 @@ function ChannelStrip({ track, trackIndex, channel }) {
         <Mute trackIndex={trackIndex} channel={channel} />
       </div>
       <Pan trackIndex={trackIndex} channel={channel} />
-      <PlaybackMode trackIndex={trackIndex} id="pan" />
-      <TrackFader trackIndex={trackIndex} channel={channel} />
-      <PlaybackMode trackIndex={trackIndex} id="volume" />
+      <TrackVolume trackIndex={trackIndex} channel={channel} />
       <span>{track.name}</span>
     </div>
   );
