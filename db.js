@@ -8,12 +8,12 @@ db.version(1).stores({
   track4: "++id, volume, pan, solo, mute",
 });
 
-const dbIds = db._storeNames;
+const dbStores = db._storeNames;
 
 // Populate with data:
 db.on("ready", function (db) {
-  dbIds.forEach((id) => {
-    db[`${id}`].count(function (count) {
+  dbStores.forEach((storeName) => {
+    db[`${storeName}`].count(function (count) {
       if (count > 0) {
         return console.log(`Already populated`);
       } else {
@@ -26,15 +26,15 @@ db.on("ready", function (db) {
           { id: "mute", time: 0, value: false },
         ];
 
-        return db[`${id}`].bulkAdd(data);
+        return db[`${storeName}`].bulkAdd(data);
       }
     });
   });
 });
 
 // Queued until data finished populating:
-dbIds.forEach((id) => {
-  db[`${id}`]
+dbStores.forEach((storeName) => {
+  db[`${storeName}`]
     .each(function (obj) {
       // Log objects, limit to 100 characters.
       console.log(`Found object: ${JSON.stringify(obj).substring(0, 100)}`);

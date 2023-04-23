@@ -8,11 +8,11 @@ import { roxanne } from "../songs";
 
 const context = getContext();
 const [song, currentTracks] = getSong(roxanne);
-const savedVolumes = currentTracks.map((currentTrack) => currentTrack.volume);
-const savedPans = currentTracks.map((currentTrack) => currentTrack.pan);
-const savedMutes = currentTracks.map((currentTrack) => currentTrack.mute);
-const savedSolos = currentTracks.map((currentTrack) => currentTrack.solo);
-const savedPlaybackModes = currentTracks.map(
+const initialVolumes = currentTracks.map((currentTrack) => currentTrack.volume);
+const initialPans = currentTracks.map((currentTrack) => currentTrack.pan);
+const initialMutes = currentTracks.map((currentTrack) => currentTrack.mute);
+const initialSolos = currentTracks.map((currentTrack) => currentTrack.solo);
+const initialPlaybackModes = currentTracks.map(
   (currentTrack) => currentTrack.playbackMode
 );
 let data = [];
@@ -24,11 +24,11 @@ export const mixerMachine = createMachine(
     initial: "loading",
     context: {
       mainVolume: -32,
-      volumes: savedVolumes,
-      pans: savedPans,
-      solos: savedSolos,
-      mutes: savedMutes,
-      playbackModes: savedPlaybackModes,
+      volumes: initialVolumes,
+      pans: initialPans,
+      solos: initialSolos,
+      mutes: initialMutes,
+      playbackModes: initialPlaybackModes,
     },
     on: {
       RESET: { actions: "reset", target: "stopped" },
@@ -167,39 +167,39 @@ export const mixerMachine = createMachine(
         return [assign({ playbackMode: tempPlaybackModes })];
       }),
 
-      record: assign(async (context, { trackIndex, value, id }) => {
+      record: assign((context, { trackIndex, value, id }) => {
         const time = t.seconds.toFixed(1);
         const switcher = {
           1: async () => {
-            data = await [{ time, value }, ...data];
+            data = [{ time, value }, ...data];
             await db[`track${trackIndex + 1}`].put({ id, data });
           },
           2: async () => {
-            data = await [{ time, value }, ...data];
+            data = [{ time, value }, ...data];
             await db[`track${trackIndex + 1}`].put({ id, data });
           },
           3: async () => {
-            data = await [{ time, value }, ...data];
+            data = [{ time, value }, ...data];
             await db[`track${trackIndex + 1}`].put({ id, data });
           },
           4: async () => {
-            data = await [{ time, value }, ...data];
+            data = [{ time, value }, ...data];
             await db[`track${trackIndex + 1}`].put({ id, data });
           },
           5: async () => {
-            data = await [{ time, value }, ...data];
+            data = [{ time, value }, ...data];
             await db[`track${trackIndex + 1}`].put({ id, data });
           },
           6: async () => {
-            data = await [{ time, value }, ...data];
+            data = [{ time, value }, ...data];
             await db[`track${trackIndex + 1}`].put({ id, data });
           },
           7: async () => {
-            data = await [{ time, value }, ...data];
+            data = [{ time, value }, ...data];
             await db[`track${trackIndex + 1}`].put({ id, data });
           },
           8: async () => {
-            data = await [{ time, value }, ...data];
+            data = [{ time, value }, ...data];
             await db[`track${trackIndex + 1}`].put({ id, data });
           },
           default: () => null,
@@ -207,8 +207,9 @@ export const mixerMachine = createMachine(
         (switcher[trackIndex + 1] || switcher.default)();
       }),
 
-      playback: assign((context, { trackIndex, channel, track1, id }) => {
-        if (!track1) return;
+      playback: assign((context, { trackIndex, channel, data, id }) => {
+        console.log("data", data);
+        if (!data) return;
         function assignParam(trackIndex, mix) {
           t.schedule((time) => {
             if (currentTracks[trackIndex].playbackMode[`${id}`] !== "playback")
@@ -223,7 +224,7 @@ export const mixerMachine = createMachine(
         switch ((trackIndex + 1).toString()) {
           case "1":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              console.log("track1", track1.volume);
+              console.log("data[trackIndex]", data[trackIndex]);
 
             // track1[`${trackIndex}`]?.forEach((mix) => {
             //   console.log("mix.time", mix.time);
@@ -232,43 +233,43 @@ export const mixerMachine = createMachine(
             break;
           case "2":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              track1[trackIndex][`${id}`]?.forEach((mix) => {
+              data[trackIndex][`${id}`]?.forEach((mix) => {
                 assignParam(trackIndex, mix);
               });
             break;
           case "3":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              track1[trackIndex][`${id}`]?.forEach((mix) => {
+              data[trackIndex][`${id}`]?.forEach((mix) => {
                 assignParam(trackIndex, mix);
               });
             break;
           case "4":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              track1[trackIndex][`${id}`]?.forEach((mix) => {
+              data[trackIndex][`${id}`]?.forEach((mix) => {
                 assignParam(trackIndex, mix);
               });
             break;
           case "5":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              track1[trackIndex][`${id}`]?.forEach((mix) => {
+              data[trackIndex][`${id}`]?.forEach((mix) => {
                 assignParam(trackIndex, mix);
               });
             break;
           case "6":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              track1[trackIndex][`${id}`]?.forEach((mix) => {
+              data[trackIndex][`${id}`]?.forEach((mix) => {
                 assignParam(trackIndex, mix);
               });
             break;
           case "7":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              track1[trackIndex][`${id}`]?.forEach((mix) => {
+              data[trackIndex][`${id}`]?.forEach((mix) => {
                 assignParam(trackIndex, mix);
               });
             break;
           case "8":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              track1[trackIndex][`${id}`]?.forEach((mix) => {
+              data[trackIndex][`${id}`]?.forEach((mix) => {
                 assignParam(trackIndex, mix);
               });
             break;
