@@ -1,6 +1,6 @@
 import { createMachine, assign } from "xstate";
 import { pure } from "xstate/lib/actions";
-import { Destination, Draw, Transport as t } from "tone";
+import { start, getContext, Destination, Draw, Transport as t } from "tone";
 import { dBToPercent, scale } from "../utils/scale";
 import { db } from "../../db";
 import { roxanne } from "../songs";
@@ -26,6 +26,8 @@ const getSong = () => {
   return [song, currentTracks];
 };
 const [song, currentTracks] = getSong();
+const context = getContext();
+console.log("context.state", context.state);
 
 const savedVolumes = currentTracks.map((currentTrack) => currentTrack.volume);
 const savedPans = currentTracks.map((currentTrack) => currentTrack.pan);
@@ -80,7 +82,14 @@ export const mixerMachine = createMachine(
 
   {
     actions: {
-      play: () => t.start(),
+      play: () => {
+        if (context.state === "suspended") {
+          start(); // initialize audio context
+          t.start();
+        } else {
+          t.start();
+        }
+      },
       pause: () => t.pause(),
       reset: () => {
         t.stop();
