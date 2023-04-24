@@ -12,50 +12,57 @@ function Pan({ trackIndex, channel }) {
   const recordLoop = useRef(null);
   const playbackLoop = useRef(null);
   const currentTracks = JSON.parse(localStorage.getItem("currentTracks"));
-  // const mixData = useLiveQuery(() => db.mixData.toArray());
+  const trackData = useLiveQuery(async () => {
+    const trackData = await db[`track${trackIndex + 1}`]
+      .where("id")
+      .equals("pan")
+      .toArray();
 
-  // // !!! --- RECORD --- !!! //
-  // useEffect(() => {
-  //   recordLoop.current = new Loop(() => {
-  //     if (currentTracks[trackIndex].playbackMode.pan !== "record") return;
-  //     send({
-  //       type: "RECORD",
-  //       id: "pan",
-  //       value: pan,
-  //       trackIndex,
-  //     });
-  //   }, 0.1).start(0);
+    return trackData;
+  });
 
-  //   return () => {
-  //     recordLoop.current.dispose();
-  //   };
-  // }, [send, trackIndex, currentTracks, pan]);
+  // !!! --- RECORD --- !!! //
+  useEffect(() => {
+    recordLoop.current = new Loop(() => {
+      if (currentTracks[trackIndex].playbackMode.pan !== "record") return;
+      send({
+        type: "RECORD",
+        id: "pan",
+        trackIndex,
+        value: pan,
+      });
+    }, 0.1).start(0);
 
-  // // !!! --- PLAYBACK --- !!! //
-  // useEffect(() => {
-  //   playbackLoop.current = new Loop(() => {
-  //     send({
-  //       type: "PLAYBACK",
-  //       id: "pan",
-  //       trackIndex,
-  //       channel,
-  //       mixData,
-  //     });
-  //   }, 0.1).start(0);
+    return () => {
+      recordLoop.current.dispose();
+    };
+  }, [send, trackIndex, currentTracks, pan]);
 
-  //   return () => {
-  //     playbackLoop.current.dispose();
-  //   };
-  // }, [send, trackIndex, mixData, channel]);
+  // !!! --- PLAYBACK --- !!! //
+  useEffect(() => {
+    playbackLoop.current = new Loop(() => {
+      send({
+        type: "PLAYBACK",
+        id: "pan",
+        trackIndex,
+        channel,
+        trackData,
+      });
+    }, 0.1).start(0);
+
+    return () => {
+      playbackLoop.current.dispose();
+    };
+  }, [send, trackIndex, trackData, channel]);
 
   return (
     <>
       <Range
-        id={trackIndex}
+        id={`trackPan${trackIndex}`}
+        className="range-x"
         min={-1}
         max={1}
         step={0.01}
-        className="range-x"
         value={pan}
         onChange={(e) => {
           send({
