@@ -160,7 +160,7 @@
   border-radius: 8px;
   width: 180px;
   font-size: 2.25rem;
-  font-family: "Digital-7 Mono Mono";
+  font-family: "Digital";
   border: 1px solid transparent;
 }
 
@@ -178,8 +178,8 @@
 }
 
 @font-face {
-  font-family: "Digital-7 Mono Mono";
-  src: url("digital-7 (mono).woff") format("woff");
+  font-family: "Digital";
+  src: url("../assets/fonts/digital-7.woff") format("woff");
 }
 
 select[id="song-select"] {

@@ -214,11 +214,6 @@ export const mixerMachine = createMachine(
             if (currentTracks[trackIndex].playbackMode[`${id}`] !== "playback")
               return;
 
-            console.log(
-              "trackData[trackIndex].data",
-              trackData[trackIndex].data
-            );
-
             Draw.schedule(() => {
               channel[`${id}`].value = data.value;
               context[`${id}s`][trackIndex] = data.value;
@@ -229,50 +224,51 @@ export const mixerMachine = createMachine(
         switch ((trackIndex + 1).toString()) {
           case "1":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              trackData[trackIndex].data?.forEach((data) => {
+              trackData[0].data?.forEach((data) => {
                 assignParam(trackIndex, data);
               });
             break;
           case "2":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              trackData[trackIndex][`${id}`]?.forEach((mix) => {
-                assignParam(trackIndex, mix);
+              trackData[0].data?.forEach((data) => {
+                assignParam(trackIndex, data);
               });
             break;
           case "3":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              trackData[trackIndex][`${id}`]?.forEach((mix) => {
-                assignParam(trackIndex, mix);
+              // console.log("trackData", trackData[0]);
+              trackData[0].data?.forEach((data) => {
+                assignParam(trackIndex, data);
               });
             break;
           case "4":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              trackData[trackIndex][`${id}`]?.forEach((mix) => {
-                assignParam(trackIndex, mix);
+              trackData[0].data?.forEach((data) => {
+                assignParam(trackIndex, data);
               });
             break;
           case "5":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              trackData[trackIndex][`${id}`]?.forEach((mix) => {
-                assignParam(trackIndex, mix);
+              trackData[0].data?.forEach((data) => {
+                assignParam(trackIndex, data);
               });
             break;
           case "6":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              trackData[trackIndex][`${id}`]?.forEach((mix) => {
-                assignParam(trackIndex, mix);
+              trackData[0].data?.forEach((data) => {
+                assignParam(trackIndex, data);
               });
             break;
           case "7":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              trackData[trackIndex][`${id}`]?.forEach((mix) => {
-                assignParam(trackIndex, mix);
+              trackData[0].data?.forEach((data) => {
+                assignParam(trackIndex, data);
               });
             break;
           case "8":
             currentTracks[trackIndex].playbackMode[`${id}`] === "playback" &&
-              trackData[trackIndex][`${id}`]?.forEach((mix) => {
-                assignParam(trackIndex, mix);
+              trackData[0].data?.forEach((data) => {
+                assignParam(trackIndex, data);
               });
             break;
           default:
