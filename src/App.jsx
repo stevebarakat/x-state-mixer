@@ -8,8 +8,8 @@ import { mixerMachine } from "./machines/mixerMachine";
 export const MixerMachineContext = createActorContext(mixerMachine);
 
 function App() {
-  const [song, setSong] = useState(() =>
-    JSON.parse(localStorage.getItem("sourceSong"))
+  const [song, setSourceSong] = useState(() =>
+    JSON.parse(localStorage.getItem("song"))
   );
 
   function onChange(e) {
@@ -26,7 +26,7 @@ function App() {
         });
         localStorage.setItem("currentTracks", JSON.stringify(currentTracks));
         window.location.reload();
-        setSong(roxanne);
+        setSourceSong(roxanne);
         break;
       case "aDayInTheLife":
         localStorage.setItem("song", JSON.stringify(aDayInTheLife));
@@ -39,7 +39,7 @@ function App() {
         });
         localStorage.setItem("currentTracks", JSON.stringify(currentTracks));
         window.location.reload();
-        setSong(aDayInTheLife);
+        setSourceSong(aDayInTheLife);
         break;
       case "blueMonday":
         localStorage.setItem("song", JSON.stringify(blueMonday));
@@ -52,7 +52,7 @@ function App() {
         });
         localStorage.setItem("currentTracks", JSON.stringify(currentTracks));
         window.location.reload();
-        setSong(blueMonday);
+        setSourceSong(blueMonday);
         break;
       case "justDance":
         localStorage.setItem("song", JSON.stringify(justDance));
@@ -65,7 +65,7 @@ function App() {
         });
         localStorage.setItem("currentTracks", JSON.stringify(currentTracks));
         window.location.reload();
-        setSong(justDance);
+        setSourceSong(justDance);
         break;
 
       default:

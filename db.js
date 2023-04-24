@@ -6,6 +6,10 @@ db.version(1).stores({
   track2: "++id, volume, pan, solo, mute",
   track3: "++id, volume, pan, solo, mute",
   track4: "++id, volume, pan, solo, mute",
+  track5: "++id, volume, pan, solo, mute",
+  track6: "++id, volume, pan, solo, mute",
+  track7: "++id, volume, pan, solo, mute",
+  track8: "++id, volume, pan, solo, mute",
 });
 
 const dbStores = db._storeNames;

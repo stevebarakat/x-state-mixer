@@ -1,10 +1,10 @@
 export function getSong(defaultSong) {
   const defaultSongString = JSON.stringify(defaultSong);
-  let sourceSong = JSON.parse(localStorage.getItem("sourceSong")!);
+  let song = JSON.parse(localStorage.getItem("song")!);
   let currentTracks = JSON.parse(localStorage.getItem("currentTracks")!);
-  if (!sourceSong) {
-    localStorage.setItem("sourceSong", defaultSongString);
-    sourceSong = defaultSong;
+  if (!song) {
+    localStorage.setItem("song", defaultSongString);
+    song = defaultSong;
   }
 
   if (!currentTracks) {
@@ -12,5 +12,5 @@ export function getSong(defaultSong) {
     currentTracks = defaultSong.tracks;
   }
 
-  return [sourceSong, currentTracks];
+  return [song, currentTracks];
 }
